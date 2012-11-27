@@ -36,8 +36,20 @@ Ext.ns('Tine.Admin.Model');
 /**
  * Model of a container
  */
-Tine.Admin.Model.Container = Tine.Tinebase.data.Record.create(Tine.Tinebase.Model.Container.getFieldDefinitions().concat([
-    {name: 'note'}
+
+Tine.Admin.Model.Container = Tine.Tinebase.data.Record.create(Tine.Tinebase.Model.Container.getFieldDefinitions().concat([  
+    {name: 'note'},
+    {name: 'backend'},
+    {name: 'ldapName'},
+    {name: 'ldapHost'},
+    {name: 'ldapDn'},
+    {name: 'ldapAccount'},
+    {name: 'ldapObjectClass'},
+    {name: 'ldapBranch'},
+    {name: 'ldapPassword'},
+    {name: 'ldapQuickSearch', type: 'boolean'},
+    {name: 'ldapMaxResults', type: 'number'},
+    {name: 'ldapRecursive', type: 'boolean'}
 ]), {
     appName: 'Admin',
     modelName: 'Container',

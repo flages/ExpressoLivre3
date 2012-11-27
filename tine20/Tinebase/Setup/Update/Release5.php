@@ -410,4 +410,134 @@ class Tinebase_Setup_Update_Release5 extends Setup_Update_Abstract
         $this->_backend->createTable($declaration, 'Tinebase', 'container_content');
         $this->setApplicationVersion('Tinebase', '5.10');
     }
+
+    /**
+    * update to 5.11
+    * - add ldapSettings (name, host, account, ...) for container
+    */
+    public function update_10()
+    {
+        $declaration = new Setup_Backend_Schema_Field_Xml('
+                <field>
+                    <name>ldapName</name>
+                    <type>text</type>
+                    <length>20</length>
+                    <default>NULL</default>
+                </field>
+        ');
+        $this->_backend->addCol('container', $declaration);
+
+        $declaration = new Setup_Backend_Schema_Field_Xml('
+                <field>
+                    <name>ldapHost</name>
+                    <type>text</type>
+                    <length>15</length>
+                    <default>NULL</default>
+                </field>
+        ');
+        $this->_backend->addCol('container', $declaration);
+        
+        $declaration = new Setup_Backend_Schema_Field_Xml('
+                <field>
+                    <name>ldapDn</name>
+                    <type>text</type>
+                    <length>256</length>
+                    <default>NULL</default>
+                </field>
+        ');
+        $this->_backend->addCol('container', $declaration);
+        
+        $declaration = new Setup_Backend_Schema_Field_Xml('
+                <field>
+                    <name>ldapAccount</name>
+                    <type>text</type>
+                    <length>256</length>
+                    <default>NULL</default>
+                </field>
+        ');
+        $this->_backend->addCol('container', $declaration);
+        
+        $declaration = new Setup_Backend_Schema_Field_Xml('
+                <field>
+                    <name>ldapObjectClass</name>
+                    <type>text</type>
+                    <length>32</length>
+                    <default>NULL</default>
+                </field>
+        ');
+        $this->_backend->addCol('container', $declaration);
+        
+        $declaration = new Setup_Backend_Schema_Field_Xml('
+                <field>
+                    <name>ldapBranch</name>
+                    <type>text</type>
+                    <length>32</length>
+                    <default>NULL</default>
+                </field>
+        ');
+        $this->_backend->addCol('container', $declaration);
+        
+        $declaration = new Setup_Backend_Schema_Field_Xml('
+                <field>
+                    <name>ldapPassword</name>
+                    <type>text</type>
+                    <length>32</length>
+                    <default>NULL</default>
+                </field>
+        ');
+        $this->_backend->addCol('container', $declaration);
+        
+        $declaration = new Setup_Backend_Schema_Field_Xml('
+                <field>
+                    <name>ldapQuickSearch</name>
+                    <type>integer</type>
+                    <length>1</length>
+                    <default>0</default>
+                </field>
+        ');
+        $this->_backend->addCol('container', $declaration);
+        
+        $declaration = new Setup_Backend_Schema_Field_Xml('
+                <field>
+                    <name>ldapQuickSearch</name>
+                    <type>integer</type>
+                    <length>1</length>
+                    <default>0</default>
+                </field>
+        ');
+        $this->_backend->addCol('container', $declaration);
+
+        $declaration = new Setup_Backend_Schema_Field_Xml('
+                <field>
+                    <name>ldapQuickSearch</name>
+                    <type>integer</type>
+                    <length>1</length>
+                    <default>0</default>
+                </field>
+        ');
+        $this->_backend->addCol('container', $declaration);
+
+        $declaration = new Setup_Backend_Schema_Field_Xml('
+                <field>
+                    <name>ldapMaxResults</name>
+                    <type>integer</type>
+                    <length>4</length>
+                    <default>0</default>
+                </field>
+        ');
+        $this->_backend->addCol('container', $declaration);
+        
+        $declaration = new Setup_Backend_Schema_Field_Xml('
+                <field>
+                    <name>ldapRecursive</name>
+                    <type>integer</type>
+                    <length>1</length>
+                    <default>0</default>
+                </field>
+        ');
+        $this->_backend->addCol('container', $declaration);
+        
+        $this->setTableVersion('container', '5', TRUE);
+        $this->setApplicationVersion('Tinebase', '5.11');
+    }
 }

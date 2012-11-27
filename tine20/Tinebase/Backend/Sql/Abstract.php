@@ -768,7 +768,6 @@ abstract class Tinebase_Backend_Sql_Abstract extends Tinebase_Backend_Abstract i
         }
         
         $recordArray = $this->_recordToRawData($_record);
-        
         // unset id if autoincrement & still empty
         if (empty($_record->$identifier) || $_record->$identifier == 'NULL' ) {
             unset($recordArray['id']);

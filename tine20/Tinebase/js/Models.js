@@ -77,7 +77,6 @@ Tine.Tinebase.Model.Container = Tine.Tinebase.data.Record.create(Tine.Tinebase.M
     {name: 'path'},
     {name: 'is_container_node', type: 'boolean'},
     {name: 'dtselect', type: 'number'},
-    {name: 'backend'},
     {name: 'application_id'},
     {name: 'account_grants'}
 ]), {

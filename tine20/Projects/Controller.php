@@ -73,7 +73,7 @@ class Projects_Controller extends Tinebase_Controller_Event implements Tinebase_
         $newContainer = new Tinebase_Model_Container(array(
             'name'              => sprintf($translation->_("%s's personal Projects"), $account->accountFullName),
             'type'              => Tinebase_Model_Container::TYPE_PERSONAL,
-            'backend'           => 'Sql',
+            'backend'           => Addressbook_Backend_Factory::SQL,
             'application_id'    => Tinebase_Application::getInstance()->getApplicationByName('Projects')->getId() 
         ));
         

@@ -125,7 +125,8 @@ abstract class Tinebase_Controller_Record_Abstract
     public static function getController($_model)
     {
         list($appName, $i, $modelName) = explode('_', $_model);
-        return Tinebase_Core::getApplicationInstance($appName, $modelName);
+        $controller = Tinebase_Core::getApplicationInstance($appName, $modelName);
+        return $controller;
     }
 
     /*********** get / search / count **************/

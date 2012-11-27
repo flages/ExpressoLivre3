@@ -41,6 +41,16 @@ class Tinebase_Model_Container extends Tinebase_Record_Abstract
     const TYPE_OTHERUSERS = 'otherUsers';
     
     /**
+     * type for SQL backends
+     */
+    const BACKEND_SQL = 'Sql';
+
+    /**
+     * type for LDAP backends
+     */
+    const BACKEND_LDAP = 'Ldap';
+
+    /**
      * key in $_validators/$_properties array for the filed which 
      * represents the identifier
      * 
@@ -62,10 +72,8 @@ class Tinebase_Model_Container extends Tinebase_Record_Abstract
      *
      * @var array
      */
-    protected $_filters = array(
-        'name'              => 'StringTrim'
-    );
-    
+    protected $_filters = array('name' => 'StringTrim');
+       
     /**
      * list of zend validator
      * 
@@ -73,28 +81,55 @@ class Tinebase_Model_Container extends Tinebase_Record_Abstract
      *
      * @var array
      */
-    protected $_validators = array(
-        'id'                => array('Digits', 'allowEmpty' => true),
-        'name'              => array('presence' => 'required'),
-        'type'              => array(array('InArray', array(self::TYPE_PERSONAL, self::TYPE_SHARED))),
-        'backend'           => array('presence' => 'required'),
-        'color'             => array('allowEmpty' => true, array('regex', '/^#[0-9a-fA-F]{6}$/')),
-        'application_id'    => array('Alnum', 'presence' => 'required'),
-        'account_grants'    => array('allowEmpty' => true), // non persistent
-        'owner_id'          => array('allowEmpty' => true), // non persistent + only set for personal folders
-        'path'              => array('allowEmpty' => true), // non persistent
+    protected $_validators =  array(
+        'id'               => array('Digits', 'allowEmpty' => true),
+        'name'             => array('presence' => 'required'),
+        'type'             => array(array('InArray', array(self::TYPE_PERSONAL, self::TYPE_SHARED))),
+        'backend'          => array(array('InArray', array(self::BACKEND_LDAP, self::BACKEND_SQL))),
+        'color'            => array('allowEmpty' => true, array('regex', '/^#[0-9a-fA-F]{6}$/')),
+        'application_id'   => array('Alnum', 'presence' => 'required'),
+        'account_grants'   => array('allowEmpty' => true), // non persistent
+        'owner_id'         => array('allowEmpty' => true), // non persistent + only set for personal folders
+        'path'             => array('allowEmpty' => true), // non persistent
+        'ldapName'         => array('allowEmpty' => true),
+        'ldapHost'         => array('allowEmpty' => true),
+        'ldapPort'         => array('allowEmpty' => true),
+        'ldapDn'           => array('allowEmpty' => true),
+        'ldapAccount'      => array('allowEmpty' => true),
+        'ldapObjectClass'  => array('allowEmpty' => true),
+        'ldapBranch'       => array('allowEmpty' => true),
+        'ldapPassword'     => array('allowEmpty' => true),
+        'ldapQuickSearch'  => array(array('InArray', array(0, 1))),
+        'ldapMaxResults'   => array('allowEmpty' => true),
+        'ldapRecursive'    => array(array('InArray', array(0, 1))),
+        
+        /* Further implementation 
+        'ldapUseSsl'       => array('allowEmpty' => true),
+        'ldapUsername'     => array('allowEmpty' => true),
+        'ldapPassword'     => array('allowEmpty' => true),
+        'ldapBindRequiresDn' => array('allowEmpty' => true),
+        'ldapBaseDn'         => array('allowEmpty' => true),
+        'ldapAccountCanonicalForm'   => array('allowEmpty' => true),
+        'ldapAccountDomainName'      => array('allowEmpty' => true),
+        'ldapAccountDomainNameShort' => array('allowEmpty' => true),
+        'ldapAccountFilterFormat'    => array('allowEmpty' => true),
+        'ldapAllowEmptyPassword'     => array('allowEmpty' => true),
+        'ldapuseStartTls'            => array('allowEmpty' => true),
+        'ldapOptReferrals'           => array('allowEmpty' => true),
+        'ldapTryUsernameSplit'       => array('allowEmpty' => true),
+        */
         
     // only gets updated in increaseContentSequence() + readonly in normal record context
         'content_seq'       => array('allowEmpty' => true),
     
     // modlog fields
-        'created_by'             => array('allowEmpty' => true),
-        'creation_time'          => array('allowEmpty' => true),
-        'last_modified_by'       => array('allowEmpty' => true),
-        'last_modified_time'     => array('allowEmpty' => true),
-        'is_deleted'             => array('allowEmpty' => true),
-        'deleted_time'           => array('allowEmpty' => true),
-        'deleted_by'             => array('allowEmpty' => true),    
+        'created_by'         => array('allowEmpty' => true),
+        'creation_time'      => array('allowEmpty' => true),
+        'last_modified_by'   => array('allowEmpty' => true),
+        'last_modified_time' => array('allowEmpty' => true),
+        'is_deleted'         => array('allowEmpty' => true),
+        'deleted_time'       => array('allowEmpty' => true),
+        'deleted_by'         => array('allowEmpty' => true),    
     );
     
     /**

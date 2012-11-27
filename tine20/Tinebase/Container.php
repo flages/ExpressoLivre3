@@ -246,7 +246,10 @@ class Tinebase_Container extends Tinebase_Backend_Sql_Abstract
         $containerGrants->addIndices(array('account_type', 'account_id'));
         $existingGrants = $containerGrants->filter('account_type', $_accountType)->filter('account_id', $_accountId)->getFirstRecord();
         
-        $id = Tinebase_Record_Abstract::generateUID();
+        $em = $containerId . $_accountType . $accountId;
+        $id = sha1($em);
+        
+        //$id = Tinebase_Record_Abstract::generateUID();
         
         foreach($_grants as $grant) {
             if ($existingGrants === NULL || ! $existingGrants->{$grant}) {
