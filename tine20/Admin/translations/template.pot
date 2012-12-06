@@ -999,3 +999,39 @@ msgid "Email User"
 msgid_plural "Email Users"
 msgstr[0] ""
 msgstr[1] ""
+
+#: js/Container/EditDialog.js:118
+msgid "Common Configurations"
+msgstr ""
+
+#: js/Container/EditDialog.js:188
+msgid "Backend"
+msgstr ""
+
+#: js/Container/EditDialog.js:213
+msgid "Configuration Name"
+msgstr ""
+
+#: js/Container/EditDialog.js:229
+msgid "Host"
+msgstr ""
+
+#: js/Container/EditDialog.js:236
+msgid "Distinguished Name"
+msgstr ""
+
+#: js/Container/EditDialog.js:244
+msgid "Search Filter"
+msgstr ""
+
+#: js/Container/EditDialog.js:269
+msgid "Quick Search"
+msgstr ""
+
+#: js/Container/EditDialog.js:277
+msgid "Max Result"
+msgstr ""
+
+#: js/Container/EditDialog.js:286
+msgid "Recursive"
+msgstr ""

@@ -87,6 +87,7 @@ class Admin_Controller_Container extends Tinebase_Controller_Record_Abstract
         $this->_checkRight('get');
         
         $container = $this->_containerController->getContainerById($_id);
+        $container->backend_options = $container->decodeBackendOptions();
         $container->account_grants = $this->_containerController->getGrantsOfContainer($_id, TRUE);
         
         return $container;

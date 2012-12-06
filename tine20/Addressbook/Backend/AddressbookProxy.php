@@ -1,12 +1,12 @@
 <?php
 /**
- * Tine 2.0
+ * Addressbook Proxy for the backend
  * 
- * @package     Felamimail
+ * @package     Addresbook
  * @subpackage  Backend
  * @license     http://www.gnu.org/licenses/agpl.html AGPL Version 3
  * @author      Cassiano Dal Pizzol <cassiano.dalpizzol@serpro.gov.br>
- * @copyright   Copyright (c) 2012 SERPRO (http://www.serpro.gov.br
+ * @copyright   Copyright (c) 2012 SERPRO (http://www.serpro.gov.br)
  */
 
 /**
@@ -18,6 +18,7 @@
  */
 class Addressbook_Backend_AddressbookProxy
 {
+    private $_lastUserBackend = 'lastUserBakend';
     /**
      * object instance
      *
@@ -32,7 +33,6 @@ class Addressbook_Backend_AddressbookProxy
      */
     private function __construct()
     {
-        
     }
     
     /**
@@ -75,14 +75,37 @@ class Addressbook_Backend_AddressbookProxy
         if (!(is_null($container)))
         {
             $backendType = $container->backend;
-            Tinebase_Core::getLogger()->debug(__METHOD__ . '#####::#####' . __LINE__ . ' Container Found '
-                                                                                . ' Backend Type -  ' . $backendType);
+            $arrOptions = $container->decodeBackendOptions();
+            $arrOptions['container'] = $container->id;
+            $_SESSION[$this->_lastUserBackend] = array(
+                'backendtype' => $backendType,
+                'arrOptions'  => $arrOptions,
+                );
+            Tinebase_Core::getLogger()->debug(__METHOD__ . '::' . __LINE__ . ' Container Found '
+                                                                                  . ' Backend Type -  ' . $backendType);
         }
         else
         {
-            Tinebase_Core::getLogger()->warn(__METHOD__ . '#####::#####' . __LINE__ . ' No Container Found'
-                                                                                        . ' Assuming default values');
+            $bk = $_SESSION[$this->_lastUserBackend];            
+            if (!(is_null($bk)))
+            {
+                switch ($_name)
+                {
+                    case "get":
+                    case "getImage":
+                    case "getMultiple":
+                    case "getAll":
+                        $backendType = $bk['backendtype'];
+                        $arrOptions  = $bk['arrOptions'];
+                      break;
+                }
+            }
+            Tinebase_Core::getLogger()->debug(__METHOD__ . '::' . __LINE__ . ' No Container Found'
+                                                                                          . ' Assuming default values');
         }
+        
+        Tinebase_Core::getLogger()->debug(__METHOD__ . '::' . __LINE__ . ' Calling ' . $_name . ' from the 
+                                                                                                       ' .$backendType);
         return call_user_func_array(array(Addressbook_Backend_Factory::factory($backendType, $arrOptions), $_name), 
                                                                                                            $_arguments);
     }
@@ -120,15 +143,13 @@ class Addressbook_Backend_AddressbookProxy
                             }
                             else
                             {
-                                Tinebase_Core::getLogger()
-                                                ->warn(__METHOD__ . '#####::#####' . __LINE__ . ' No Container Found');
+                                Tinebase_Core::getLogger()->warn(__METHOD__ . '::' . __LINE__ . ' No Container Found');
                             }
                         }
                         catch (Exception $e)
                         {
-                            Tinebase_Core::getLogger()
-                                      ->warn(__METHOD__ . '#####::#####' . __LINE__ . ' Error Resolving the container');
-                            Tinebase_Core::getLogger()->warn(__METHOD__ . '#####::#####' . __LINE__ . $e->getMessage());
+                            $message = ' Error Resolving the container' . "\n" . $e->getMessage();
+                            Tinebase_Core::getLogger()->warn(__METHOD__ . '::' . __LINE__ . $message);
                         }
                         break(2);
                 }

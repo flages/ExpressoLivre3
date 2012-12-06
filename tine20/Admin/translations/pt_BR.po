@@ -3,8 +3,8 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
-"PO-Revision-Date: 2012-12-04 14:38-0300\n"
-"Last-Translator: Lavoisier Vieira <lavoisier.vieira@serpro.gov.br>\n"
+"PO-Revision-Date: 2012-12-06 13:34-0300\n"
+"Last-Translator: Cassiano Dal Pizzol <cassiano@dalpizzol@serpro.gov.br>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -956,3 +956,38 @@ msgstr "falha"
 msgid "success"
 msgstr "sucesso"
 
+#: js/Container/EditDialog.js:118
+msgid "Common Configurations"
+msgstr "Configurações Comuns"
+
+#: js/Container/EditDialog.js:188
+msgid "Backend"
+msgstr "Backend"
+
+#: js/Container/EditDialog.js:213
+msgid "Configuration Name"
+msgstr "Nome da Configuração"
+
+#: js/Container/EditDialog.js:229
+msgid "Host"
+msgstr "Servidor"
+
+#: js/Container/EditDialog.js:236
+msgid "Distinguished Name"
+msgstr "Nome Distinto"
+
+#: js/Container/EditDialog.js:244
+msgid "Search Filter"
+msgstr "Filtro de Pesquisa"
+
+#: js/Container/EditDialog.js:269
+msgid "Quick Search"
+msgstr "Pesquisa Rápida"
+
+#: js/Container/EditDialog.js:277
+msgid "Max Result"
+msgstr "Máximo de Resultados"
+
+#: js/Container/EditDialog.js:286
+msgid "Recursive"
+msgstr "Recursivo"

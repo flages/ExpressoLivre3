@@ -44,35 +44,13 @@ Tine.Admin.ContainerEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, {
      */
     onRecordLoad: function () {
         Tine.Admin.ContainerEditDialog.superclass.onRecordLoad.apply(this, arguments);
-        
         // load grants store if editing record
         if (this.record && this.record.id) {
             this.grantsStore.loadData({
-	         results:    this.record.get('account_grants'),
-	         totalcount: this.record.get('account_grants').length
-	    });
-            //this.record.data.backend
-            //if (this.record.get('backend') === 'Sql') {
-            //    alert('backend: ' + this.record.get('backend') + '\n\n' + this.record.toString());
-            //}
+                results:    this.record.get('account_grants'),
+                totalcount: this.record.get('account_grants').length
+            });
         }
-        /*
-        else {
-            var F = this.getForm();
-            F.findField('backend').setDisabled(false);
-            F.findField('ldapName').setDisabled(false);
-            F.findField('ldapHost').setDisabled(false);
-            F.findField('ldapDn').setDisabled(false);
-            F.findField('ldapAccount').setDisabled(false);
-            F.findField('ldapObjectClass').setDisabled(false);
-            F.findField('ldapBranch').setDisabled(false);
-            F.findField('ldapPassword').setDisabled(false);
-            F.findField('ldapQuickSearch').setDisabled(false);
-            F.findField('ldapMaxResults').setDisabled(false);
-            F.findField('ldapRecursive').setDisabled(false);
-            
-        }
-        */
     },    
     
     /**
@@ -88,35 +66,6 @@ Tine.Admin.ContainerEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, {
             grants.push(grant.data);
         });
         this.record.set('account_grants', grants);
-
-        var F = this.getForm();
-        this.record.set('backend', F.findField('backend').value);
-
-        if (this.record.get('backend') === 'Ldap') {
-            this.record.set('ldapName'       , F.findField('ldapName').value);
-            this.record.set('ldapHost'       , F.findField('ldapHost').value);
-            this.record.set('ldapDn'         , F.findField('ldapDn').value);
-            this.record.set('ldapAccount'    , F.findField('ldapAccount').value);
-            this.record.set('ldapObjectClass', F.findField('ldapObjectClass').value);
-            this.record.set('ldapBranch'     , F.findField('ldapBranch').value);
-            this.record.set('ldapPassword'   , F.findField('ldapPassword').value);
-            this.record.set('ldapQuickSearch', F.findField('ldapQuickSearch').value);
-            this.record.set('ldapMaxResults' , F.findField('ldapMaxResults').value);
-            this.record.set('ldapRecursive'  , F.findField('ldapRecursive').value);
-        }
-        else {
-            this.record.set('ldapName'       , '');
-            this.record.set('ldapHost'       , '');
-            this.record.set('ldapDn'         , '');
-            this.record.set('ldapAccount'    , '');
-            this.record.set('ldapObjectClass', '');
-            this.record.set('ldapBranch'     , '');
-            this.record.set('ldapPassword'   , '');
-            this.record.set('ldapQuickSearch', '0');
-            this.record.set('ldapMaxResults' , '0');
-            this.record.set('ldapRecursive'  , '0');
-        }
-        //alert('backend: ' + this.record.get('backend') + '\n\n' + this.record.toString());
     },
     
     /**
@@ -166,7 +115,7 @@ Tine.Admin.ContainerEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, {
            deferredRender: false,
            defaults: {autoscroll: true, padding: '10px'},
            items: [[{
-                   title: 'Config. Comuns',
+                   title: this.app.i18n._('Common Configurations'),
                    layout: 'form',
                    layoutConfig: {type: 'fit', align: 'stretch', pack: 'start'},
                    items: [[{
@@ -176,7 +125,7 @@ Tine.Admin.ContainerEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, {
                            items: [[{
                                        xtype: 'textfield',
                                        name: 'name',
-                                       fieldLabel: this.app.i18n._('Name'), 
+                                       fieldLabel: this.app.i18n._('Name'),
                                        allowBlank: false,
                                        maxLength: 40,
                                        columnWidth: 0.3
@@ -227,146 +176,111 @@ Tine.Admin.ContainerEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, {
                            ]
                    }]]
            }, {
-              title: 'Backend',
+              title: this.app.i18n._('Backend'),
               layout: 'form',
               items: [[{
-                       xtype: 'columnform',
-                       autoHeight: true,
-                       border: false, 
-                       items: [[{
-                                xtype: 'combo',
-                                name: 'backend',
-                                fieldLabel: this.app.i18n._('Backend'),
-                                store: [['Sql', this.app.i18n._('Sql')], ['Ldap', this.app.i18n._('Ldap')]],
-                                mode: 'local',
-                                allowBlank: false,
-                                forceSelection: true,
-                                listeners: {
-                                    scope: this, 
-                                    select: function (combo, record) {
-                                            this.record.set('backend', record.data.field1);
-                                            var F = this.getForm();
-                                            F.findField('ldapName').setDisabled(record.data.field1 === 'Sql');
-                                            F.findField('ldapHost').setDisabled(record.data.field1 === 'Sql');
-                                            F.findField('ldapDn').setDisabled(record.data.field1 === 'Sql');
-                                            F.findField('ldapAccount').setDisabled(record.data.field1 === 'Sql');
-                                            F.findField('ldapObjectClass').setDisabled(record.data.field1 === 'Sql');
-                                            F.findField('ldapBranch').setDisabled(record.data.field1 === 'Sql');
-                                            F.findField('ldapPassword').setDisabled(record.data.field1 === 'Sql');
-                                            F.findField('ldapQuickSearch').setDisabled(record.data.field1 === 'Sql');
-                                            F.findField('ldapMaxResults').setDisabled(record.data.field1 === 'Sql');
-                                            F.findField('ldapRecursive').setDisabled(record.data.field1 === 'Sql');
-                                    }
-                                },
-                                anchor: '100%',
-                                columnWidth: 0.2
-                             }, {
-                                xtype: 'textfield',
-                                name: 'ldapName',
-                                fieldLabel: this.app.i18n._('Name'), 
-                                //disabled: true,
-                                allowBlank: false,
-                                value: 'ldapName',
-                                //minLength: 3,
-                                maxLength: 20,
-                                columnWidth: 1                                
-                             }, {
-                                xtype: 'textfield',
-                                name: 'ldapHost',
-                                fieldLabel: this.app.i18n._('Host'), 
-                                //disabled: true,
-                                allowBlank: false,
-                                value: 'ldapHost',
-                                //maskRe: /[0-9.]/i,
-                                //regex: /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/,
-                                //regexText: this.app.i18n._('Invalid IP address'),
-                                //minLength: 7,
-                                maxLength: 15,
-                                columnWidth: 1                                
-                             }, {
-                                xtype: 'textfield',
-                                name: 'ldapDn',
-                                fieldLabel: this.app.i18n._('Distinguished Name'), 
-                                //disabled: true,
-                                allowBlank: false,
-                                value: 'ldapDn',
-                                //minLength: 4,
-                                maxLength: 256,
-                                columnWidth: 1                                
-                             }, {
-                                xtype: 'textfield',
-                                name: 'ldapAccount',
-                                fieldLabel: this.app.i18n._('Account'), 
-                                //disabled: true,
-                                allowBlank: false,
-                                value: 'ldapAccount',
-                                //minLength: 4,
-                                maxLength: 256,
-                                columnWidth: 1
-                             }, {
-                                xtype: 'textfield',
-                                name: 'ldapObjectClass',
-                                fieldLabel: this.app.i18n._('Object Class'), 
-                                //disabled: true,
-                                allowBlank: false,
-                                //minLength: 3,
-                                value: 'ldapObjectClass',
-                                maxLength: 32,
-                                columnWidth: 1                                
-                             }, {
-                                xtype: 'textfield',
-                                name: 'ldapBranch',
-                                fieldLabel: this.app.i18n._('Branch'), 
-                                //disabled: true,
-                                allowBlank: false,
-                                //minLength: 3,
-                                value: 'ldapBranch',
-                                maxLength: 32,
-                                columnWidth: 0.6                                
-                             }, {
-                                xtype: 'textfield',
-                                inputType: 'password',
-                                name: 'ldapPassword',
-                                fieldLabel: this.app.i18n._('Password'), 
-                                //disabled: true,
-                                allowBlank: false,
-                                //minLength: 6,
-                                value: '123456',
-                                maxLength: 32,
-                                columnWidth: 0.4                               
-                             }, {
-                                xtype: 'combo',
-                                name: 'ldapQuickSearch',                                
-                                fieldLabel: this.app.i18n._('Quick Search'), 
-                                //disabled: true,
-                                mode: 'local',
-                                store: [[0, this.app.i18n._('false')], [1, this.app.i18n._('true')]],
-                                value: 'false',
-                                columnWidth: 0.4
-                             }, {
-                                xtype: 'numberfield',
-                                name: 'ldapMaxResults',
-                                //disabled: true,
-                                value: 0,
-                                fieldLabel: this.app.i18n._('Max.'), 
-                                allowBlank: false,
-                                style: 'text-align: right',
-                                //minLength: 1,                             
-                                maxLength: 4,
-                                columnWidth: 0.2                                
-                             }, {
-                                xtype: 'combo',
-                                name: 'ldapRecursive',                                
-                                //disabled: true,
-                                fieldLabel: this.app.i18n._('Recursive'), 
-                                store: [[0, this.app.i18n._('false')], [1, this.app.i18n._('true')]],
-                                mode: 'local',
-                                value: 'false',
-                                columnWidth: 0.4                                
-                             }
-                       ]]
-              }]]
-           }]]
+                    xtype: 'columnform',
+                    autoHeight: true,
+                    border: false,
+                    items: [[{
+                            xtype: 'combo',
+                            name: 'backend',
+                            fieldLabel: this.app.i18n._('Backend'),
+                            store: [['Sql', this.app.i18n._('Sql')], ['Ldap', this.app.i18n._('Ldap')]],
+                            mode: 'local',
+                            allowBlank: false,
+                            forceSelection: true,
+                            listeners: {
+                                scope: this, 
+                                select: function (combo, record) {
+                                    var Form = this.getForm();
+                                    Form.findField('ldapHost').setDisabled(record.data.field1 === 'Sql');
+                                    Form.findField('ldapDn').setDisabled(record.data.field1 === 'Sql');
+                                    Form.findField('ldapAccount').setDisabled(record.data.field1 === 'Sql');
+                                    Form.findField('ldapObjectClass').setDisabled(record.data.field1 === 'Sql');
+                                    Form.findField('ldapPassword').setDisabled(record.data.field1 === 'Sql');
+                                    Form.findField('ldapQuickSearch').setDisabled(record.data.field1 === 'Sql');
+                                    Form.findField('ldapMaxResults').setDisabled(record.data.field1 === 'Sql');
+                                    Form.findField('ldapRecursive').setDisabled(record.data.field1 === 'Sql');
+                                }
+                            },
+                            //anchor: '100%',
+                            columnWidth: 1
+                        }, {
+                            xtype: 'textfield',
+                            name: 'ldapHost',
+                            fieldLabel: this.app.i18n._('Host'),
+                            disabled: this.record.get('backend') == 'Sql',
+                            allowBlank: false,
+                            columnWidth: 0.6
+                        }, {
+                            xtype: 'textfield',
+                            name: 'ldapPort',
+                            fieldLabel: this.app.i18n._('Port'),
+                            disabled: this.record.get('backend') == 'Sql',
+                            maxLength: 5,
+                            columnWidth: 0.4
+                        },{
+                            xtype: 'textfield',
+                            name: 'ldapDn',
+                            fieldLabel: this.app.i18n._('Distinguished Name'),
+                            disabled: this.record.get('backend') == 'Sql',
+                            allowBlank: false,
+                            columnWidth: 1
+                        }, {
+                            xtype: 'textfield',
+                            name: 'ldapObjectClass',
+                            fieldLabel: this.app.i18n._('Search Filter'),
+                            disabled: this.record.get('backend') == 'Sql',
+                            allowBlank: false,
+                            columnWidth: 1
+                        }, {
+                            xtype: 'textfield',
+                            name: 'ldapAccount',
+                            fieldLabel: this.app.i18n._('Account'),
+                            disabled: this.record.get('backend') == 'Sql',
+                            allowBlank: false,
+                            columnWidth: 0.6
+                        }, {
+                            xtype: 'textfield',
+                            inputType: 'password',
+                            name: 'ldapPassword',
+                            fieldLabel: this.app.i18n._('Password'),
+                            disabled: this.record.get('backend') == 'Sql',
+                            allowBlank: false,
+                            columnWidth: 0.4
+                        }, {
+                            xtype: 'combo',
+                            name: 'ldapQuickSearch',                                
+                            fieldLabel: this.app.i18n._('Quick Search'),
+                            disabled: this.record.get('backend') == 'Sql',
+                            disabled: true,
+                            mode: 'local',
+                            store: [[0, this.app.i18n._('false')], [1, this.app.i18n._('true')]],
+                            columnWidth: 0.4
+                        }, {
+                            xtype: 'numberfield',
+                            name: 'ldapMaxResults',
+                            fieldLabel: this.app.i18n._('Max Result'),
+                            disabled: this.record.get('backend') == 'Sql',
+                            allowBlank: false,
+                            style: 'text-align: right',
+                            maxLength: 4,
+                            columnWidth: 0.2
+                        }, {
+                            xtype: 'combo',
+                            name: 'ldapRecursive',        
+                            fieldLabel: this.app.i18n._('Recursive'), 
+                            disabled: this.record.get('backend') == 'Sql',
+                            store: [[0, this.app.i18n._('false')], [1, this.app.i18n._('true')]],
+                            allowBlank: false,
+                            forceSelection: true,
+                            mode: 'local',
+                            columnWidth: 0.4
+                        }
+                    ]]
+                }]]
+            }]]
         };
     }
 });

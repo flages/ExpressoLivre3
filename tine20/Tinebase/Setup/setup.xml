@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <application>
     <name>Tinebase</name>
-    <version>5.10</version>
+    <version>5.11</version>
     <tables>
         <table>
             <name>applications</name>
@@ -537,7 +537,7 @@
 
         <table>
             <name>container</name>
-            <version>5</version>
+            <version>6</version>
             <declaration>
                 <field>
                     <name>id</name>
@@ -570,76 +570,8 @@
                     <notnull>true</notnull>
                 </field>
                 <field>
-                    <name>ldapName</name>
+                    <name>backend_options</name>
                     <type>text</type>
-                    <length>20</length>
-                    <default>NULL</default>
-                </field>
-                <field>
-                    <name>ldapHost</name>
-                    <type>text</type>
-                    <length>15</length>
-                    <default>NULL</default>
-                </field>
-                <field>
-                    <name>ldapDn</name>
-                    <type>text</type>
-                    <length>256</length>
-                    <default>NULL</default>
-                </field>
-                <field>
-                    <name>ldapAccount</name>
-                    <type>text</type>
-                    <length>256</length>
-                    <default>NULL</default>
-                </field>
-                <field>
-                    <name>ldapObjectClass</name>
-                    <type>text</type>
-                    <length>32</length>
-                    <default>NULL</default>
-                </field>
-                <field>
-                    <name>ldapBranch</name>
-                    <type>text</type>
-                    <length>32</length>
-                    <default>NULL</default>
-                </field>
-                <field>
-                    <name>ldapPassword</name>
-                    <type>text</type>
-                    <length>32</length>
-                    <default>NULL</default>
-                </field>
-                <field>
-                    <name>ldapQuickSearch</name>
-                    <type>integer</type>
-                    <length>1</length>
-                    <default>0</default>
-                </field>
-                <field>
-                    <name>ldapQuickSearch</name>
-                    <type>integer</type>
-                    <length>1</length>
-                    <default>0</default>
-                </field>
-                <field>
-                    <name>ldapQuickSearch</name>
-                    <type>integer</type>
-                    <length>1</length>
-                    <default>0</default>
-                </field>
-                <field>
-                    <name>ldapMaxResults</name>
-                    <type>integer</type>
-                    <length>4</length>
-                    <default>0</default>
-                </field>
-                <field>
-                    <name>ldapRecursive</name>
-                    <type>integer</type>
-                    <length>1</length>
-                    <default>0</default>
                 </field>
                 <field>
                     <name>application_id</name>

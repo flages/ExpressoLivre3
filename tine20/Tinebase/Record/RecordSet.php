@@ -661,7 +661,8 @@ class Tinebase_Record_RecordSet implements IteratorAggregate, Countable, ArrayAc
      * @param int $_flags sort flags for asort/arsort
      * @return $this
      */
-    public function sort($_field, $_direction = 'ASC', $_sortFunction = 'asort', $_flags = SORT_REGULAR)
+    public function sort($_field, $_direction = 'ASC', $_sortFunction = 'asort', $_flags = SORT_REGULAR,
+                                                                                                 $_preserveKeys = false)
     {
         $offsetToSortFieldMap = $this->__get($_field);
         
@@ -672,9 +673,9 @@ class Tinebase_Record_RecordSet implements IteratorAggregate, Countable, ArrayAc
                 break;
             case 'natcasesort':
                 natcasesort($offsetToSortFieldMap);
-                if ($_direction == 'DESC') {
+                if ($_direction == 'DESC'){
                     // @todo check if this is working
-                    $offsetToSortFieldMap = array_reverse($offsetToSortFieldMap);
+                    $offsetToSortFieldMap = array_reverse($offsetToSortFieldMap, $_preserveKeys);
                 }
                 break;
             default:
@@ -682,16 +683,8 @@ class Tinebase_Record_RecordSet implements IteratorAggregate, Countable, ArrayAc
         }
         
         // tmp records
-        $oldListOfRecords = $this->_listOfRecords;
-        
-        // reset indexes and records
-        $this->_idLess        = array();
-        $this->_idMap         = array();
-        $this->_listOfRecords = array();
-        $namedIndices = array_keys($this->_indices);
-        $this->_indices = array();
-        $this->addIndices($namedIndices);
-        
+        $oldListOfRecords = $this->_listOfRecords;        
+        $this->_resetRecords();        
         foreach (array_keys($offsetToSortFieldMap) as $oldOffset) {
             $this->addRecord($oldListOfRecords[$oldOffset]);
         }
@@ -709,7 +702,7 @@ class Tinebase_Record_RecordSet implements IteratorAggregate, Countable, ArrayAc
     {
         if ($_pagination !== NULL && $_pagination->sort) {
             $sortField = is_array($_pagination->sort) ? $_pagination->sort[0] : $_pagination->sort; 
-            $this->sort($sortField, ($_pagination->dir) ? $_pagination->dir : 'ASC');
+            $this->sort($sortField, ($_pagination->dir) ? $_pagination->dir : 'ASC', 'natcasesort');
         }
         
         return $this;
@@ -724,5 +717,49 @@ class Tinebase_Record_RecordSet implements IteratorAggregate, Countable, ArrayAc
         foreach ($this->_listOfRecords as $record) {
             $record->translate();
         }
-    }    
+    }
+    
+    /**
+     * Return a "paginated" version of the recordset. Important, it will change the original records.
+     * 
+     * @param int $_fIndex First record of the page
+     * @param int $_lIndex how much records to return
+     * @return Tinebase_Record_RecordSet 
+     * 
+     */
+    public function returnPagination($_fIndex, $_lIndex)
+    {
+        $begin = $_fIndex;
+        $count = count($this->_idMap);        
+        $finish = ($count < ($_lIndex + $_fIndex))? $count : ($_lIndex + $_fIndex);        
+        // tmp records
+        $oldListOfRecords = $this->_listOfRecords;
+        $this->_resetRecords();
+        if ($count > 0)
+        {
+            do
+            {
+                $this->addRecord($oldListOfRecords[$begin]);
+                $begin++;
+            }
+            while($begin < $finish);
+        }
+        return $this;
+    }
+    
+    /**
+     * Reset all records and indexes of the object
+     * 
+     * @return void
+    */
+    protected function _resetRecords()
+    {
+        // reset indexes and records
+        $this->_idLess        = array();
+        $this->_idMap         = array();
+        $this->_listOfRecords = array();
+        $namedIndices = array_keys($this->_indices);
+        $this->_indices = array();
+        $this->addIndices($namedIndices);
+    }
 }

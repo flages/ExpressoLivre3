@@ -39,13 +39,13 @@ Ext.ns('Tine.Admin.Model');
 
 Tine.Admin.Model.Container = Tine.Tinebase.data.Record.create(Tine.Tinebase.Model.Container.getFieldDefinitions().concat([  
     {name: 'note'},
+    {name: 'backend_options'},
     {name: 'backend'},
-    {name: 'ldapName'},
     {name: 'ldapHost'},
+    {name: 'ldapPort'},
     {name: 'ldapDn'},
     {name: 'ldapAccount'},
     {name: 'ldapObjectClass'},
-    {name: 'ldapBranch'},
     {name: 'ldapPassword'},
     {name: 'ldapQuickSearch', type: 'boolean'},
     {name: 'ldapMaxResults', type: 'number'},
