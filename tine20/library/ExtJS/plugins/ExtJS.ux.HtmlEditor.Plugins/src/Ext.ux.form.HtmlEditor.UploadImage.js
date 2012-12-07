@@ -198,25 +198,19 @@ return result;
 },
 
 isPermittedFile : function(browse_btn) {
-var result = false;
-var filename = browse_btn.getInputFile().dom.value;
+    var result = false;
+    var filename = browse_btn.getInputFile().dom.value;
 
-if (this.isPermittedFileType(filename)) {
-result = true;
-}
-else {
-Ext.Msg.alert(
-_(this.i18n.error_msgbox_title),
-String.format(
-_(this.i18n.err_file_type_not_permitted),
-filename,
-this.permitted_extensions.join(', ')
-)
-);
-result = false;
-}
+    if (this.isPermittedFileType(filename.toLowerCase())) {
+        result = true;
+    }
+    else {
+        Ext.Msg.alert( _(this.i18n.error_msgbox_title), 
+                String.format(_(this.i18n.err_file_type_not_permitted),filename,this.permitted_extensions.join(', ')) );
+        result = false;
+    }
 
-return result;
+    return result;
 },
 
 fireFileTestEvent : function(browse_btn) {
