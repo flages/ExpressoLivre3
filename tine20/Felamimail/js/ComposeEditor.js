@@ -49,9 +49,10 @@ Tine.Felamimail.ComposeEditor = Ext.extend(Ext.form.HtmlEditor, {
                     + 'padding-left: 10px;'
                     + 'border-left: 2px solid #000088;'
                 + '} '
+            + '.editor-body-panel { font-size: 14px !important; }'
             + '</style>'
             + '</head>'
-            + '<body style="padding: 5px 0px 0px 5px; margin: 0px">'
+            + '<body class="editor-body-panel" style="padding: 5px 0px 0px 5px; margin: 0px">'
             + '</body></html>';
 
         return markup;
