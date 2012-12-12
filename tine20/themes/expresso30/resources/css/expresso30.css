@@ -410,3 +410,13 @@ font-size: 12px;
 .preview-panel-felamimail-body {
     font-size: 14px;
 }
+
+.preview-panel-felamimail-body { 
+    margin: 0; 
+    padding: 0; 
+    border: 0;
+    border-spacing: 0; 
+}
+.preview-panel-felamimail-body table img { 
+    display: block;
+}
