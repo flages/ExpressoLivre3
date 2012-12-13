@@ -380,9 +380,9 @@ this.onWindowRender();
     },
 
 onUploadSuccess : function(dialog, filename, resp_data, record) {
-var img = dialog.cmp;
-                var fileName = filename.replace(/[a-zA-Z]:[\\\/]fakepath[\\\/]/, '');
-img.append('<img alt="'+fileName+'" src="index.php?method=Felamimail.showTempImage&tempImageId='+resp_data.id+'"/>');
+    var fileName = filename.replace(/[a-zA-Z]:[\\\/]fakepath[\\\/]/, '');
+    var html = '<img alt="'+fileName+'" src="index.php?method=Felamimail.showTempImage&tempImageId='+resp_data.id+'"/>';
+    dialog.cmp.insertAtCursor(html);
 },
 
 onUploadError : function(dialog, filename, resp_data, record) {
