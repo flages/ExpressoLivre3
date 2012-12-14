@@ -757,7 +757,8 @@ Ext.namespace('Tine.Felamimail');
                 success: function(record) {
                     this.fireEvent('update', Ext.util.JSON.encode(this.record.data));
                     this.purgeListeners();
-                    this.window.close();
+                    this.loadMask.hide();
+                    //this.window.close();
                 },
                 failure: this.onRequestFailed,
                 timeout: 150000 // 3 minutes
