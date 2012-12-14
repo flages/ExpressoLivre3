@@ -379,6 +379,7 @@ body {
 	background: #d4d4d4 none;
 }
 .x-btn .x-btn-icon-small-left { border: solid 2px #68a !important; border-radius: 3px; -moz-border-radius: 3px; }
+
 #tine-viewport-maincardpanel>.x-panel>.x-panel-bwrap {
 	background: transparent url(../images/expresso/logo-serpro2.png) no-repeat 390px 472px;
 }
@@ -424,3 +425,12 @@ font-size: 12px;
 .preview-panel-felamimail-body table img { 
     display: block;
 }
+
+.powered-by-panel { color: #003; top: 484px !important; }
+.about-button-panel { top: 476px !important; }
+#about_button .x-btn-tl, #about_button .x-btn-tr, #about_button .x-btn-tc, 
+#about_button .x-btn-ml, #about_button .x-btn-mr, #about_button .x-btn-mc, 
+#about_button .x-btn-bl, #about_button .x-btn-br, #about_button .x-btn-bc {
+    background-image: none;
+}
+

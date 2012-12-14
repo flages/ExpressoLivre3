@@ -170,7 +170,7 @@ Tine.Tinebase.LoginPanel = Ext.extend(Ext.Panel, {
         if (! this.aboutPanel) {
             this.aboutPanel = new Ext.Container({
                 layout: 'fit',
-                cls: 'tb-about-panel',
+                cls: 'tb-about-panel about-button-panel',
                 border: false,
                 items: [{
                     xtype: 'button',
@@ -190,7 +190,7 @@ Tine.Tinebase.LoginPanel = Ext.extend(Ext.Panel, {
         if (! this.poweredByPanel) {
             this.poweredByPanel = new Ext.Container({
                 layout: 'fit',
-                cls: 'tb-about-panel',
+                cls: 'tb-about-panel powered-by-panel',
                 border: false,
                 defaults: {xtype: 'label'},
                 items: [{
