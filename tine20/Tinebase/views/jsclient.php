@@ -51,6 +51,7 @@
     <script type="text/javascript" src="library/ExtJS/plugins/ExtJS.ux.HtmlEditor.Plugins/src/Ext.ux.form.HtmlEditor.MidasCommand.js"></script>
     <script type="text/javascript" src="library/ExtJS/plugins/ExtJS.ux.HtmlEditor.Plugins/src/Ext.ux.form.HtmlEditor.SpellChecker.js"></script>
     <script type="text/javascript" src="library/ExtJS/plugins/ExtJS.ux.HtmlEditor.Plugins/src/Ext.ux.form.HtmlEditor.UploadImage.js"></script>
+    <script type="text/javascript" src="library/ExtJS/plugins/ExtJS.ux.HtmlEditor.Plugins/src/Ext.ux.form.HtmlEditor.Table.js"></script>
     
      <?php 
     echo $theme_config[2] . "\n";

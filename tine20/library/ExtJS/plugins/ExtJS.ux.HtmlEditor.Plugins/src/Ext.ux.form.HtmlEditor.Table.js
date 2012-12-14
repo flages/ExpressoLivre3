@@ -20,12 +20,12 @@ Ext.ux.form.HtmlEditor.Table = Ext.extend(Ext.util.Observable, {
      * @cfg {Boolean} showCellLocationText
      * Set true to display row and column informational text inside of newly created table cells.
      */
-    showCellLocationText: true,
+    showCellLocationText: false,
     /**
      * @cfg {Boolean} set100PcWidth
      * Set true to insert a 100% width table.
      */
-    set100PcWidth: true,
+    set100PcWidth: false,
     /**
      * @cfg {String} cellLocationText
      * The string to display inside of newly created table cells.
