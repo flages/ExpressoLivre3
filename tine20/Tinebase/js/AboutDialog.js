@@ -30,6 +30,7 @@ Tine.Tinebase.AboutDialog = Ext.extend(Ext.Window, {
             '<div class="tb-about-dlg">',
                 '<div class="tb-about-img"><a href="{logoLink}" target="_blank"><img src="{logo}" /></a></div>',
                 '<div class="tb-link-home"><a href="{logoLink}" target="_blank">{logoLink}</a></div>',
+                '<div class="tb-link-tutorial"><br/><a href="tutorial/html/index.html" target="_blank">{tutorial}</a></div>',
                 '<div class="tb-about-version">' + _('Version') + ': {codeName}</div>',
                 '<div class="tb-about-build">({packageString})</div>',
                 '<div class="tb-about-copyright">' + _('Copyright') + ': 2007-{[new Date().getFullYear()]}&nbsp;<a href="http://www.metaways.de" target="_blank">Metaways Infosystems GmbH</a></div>',
@@ -53,6 +54,7 @@ Tine.Tinebase.AboutDialog = Ext.extend(Ext.Window, {
             html: this.aboutTpl.applyTemplate({
                 logo: Tine.Tinebase.LoginPanel.prototype.loginLogo,
                 logoLink: Tine.weburl,
+                tutorial: _("Ajuda ao Usuário"),
                 codeName: version.codeName,
                 packageString: version.packageString
             }),
