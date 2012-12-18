@@ -792,7 +792,9 @@ Tine.Felamimail.GridPanel = Ext.extend(Tine.widgets.grid.GridPanel, {
         
         // Return focus to grid
         var record = this.getGrid().getSelectionModel().getSelected();
-        this.getGrid().getView().focusRow(this.getGrid().store.indexOf(record));
+        if (record) {
+            this.getGrid().getView().focusRow(this.getGrid().store.indexOf(record));
+        }
       
     },
 
