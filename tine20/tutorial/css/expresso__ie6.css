@@ -1,0 +1,31 @@
+/*
+ * Folha de estilos incluída APENAS no IE6
+ */
+
+/* troca PNGs com transparência para GIFs */ 
+.navegacao_hits  .hit_anterior {	background-image:url(../imagens/tema/hit_anterior.gif); }
+.navegacao_hits  .hit_proximo { background-image:url(../imagens/tema/hit_proximo.gif); }
+.hit_seta {	background:url(../imagens/tema/hit_seta.gif) no-repeat; }
+#EHpointer { background:transparent url('../imagens/tema/cursor.gif') 0 0 no-repeat; z-index:100; }
+
+.breadcrumb {
+	font-size:1em;
+	margin-top:63px;
+	position:absolute;
+	color:#666666;
+	float:left;
+	display:inline;
+}
+
+.breadcrumb ul {
+	list-style-type:none;
+	height:29px;
+	margin:0;
+	padding:0;
+	background: #e7e7e7 url(../imagens/tema/breadcrumb_bg.gif) repeat-x top left;
+}
+
+.texto_fim_demo {
+margin-left:0px;
+left:25%;
+}
