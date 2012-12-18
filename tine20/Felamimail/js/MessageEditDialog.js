@@ -523,7 +523,7 @@ Ext.namespace('Tine.Felamimail');
         
         this.htmlEditor.on('keydown', function(e) {
             if (e.getKey() == e.ENTER && e.ctrlKey) {
-                this.onSaveAndClose();
+                this.checkUnknownContacts();
             } else if (e.getKey() == e.TAB && e.shiftKey) {
                 this.subjectField.focus.defer(50, this.subjectField);
             }
