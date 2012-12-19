@@ -66,6 +66,12 @@ class Felamimail_Preference extends Tinebase_Preference_Abstract
     const DELETE_FROMTRASH = 'deleteFromTrash';
     
     /**
+     * show Emails Per Page option
+     *
+     */
+    const EMAILS_PERPAGE = 'emailsPerPage';
+    
+    /**
      * default filter name
      */
     const DEFAULTPERSISTENTFILTER_NAME = 'All inboxes'; //  _("All inboxes")
@@ -101,6 +107,7 @@ class Felamimail_Preference extends Tinebase_Preference_Abstract
             self::CONFIRM_DELETE,
             self::MOVEDELETED_TOTRASH,
             self::DELETE_FROMTRASH,            
+            self::EMAILS_PERPAGE,
         );
             
         return $allPrefs;
@@ -143,6 +150,10 @@ class Felamimail_Preference extends Tinebase_Preference_Abstract
             self::DELETE_FROMTRASH  => array(
                 'label'         => $translate->_('Delete trash messages after how many days'),
                 'description'   => $translate->_('Choose a number of days'),
+            ),            
+            self::EMAILS_PERPAGE  => array(
+                'label'         => $translate->_('Emails shown in each page'),
+                'description'   => $translate->_('Choose a number of emails to show in each page'),
             ),            
         );
         
@@ -208,6 +219,18 @@ class Felamimail_Preference extends Tinebase_Preference_Abstract
                 $preference->options    = '<?xml version="1.0" encoding="UTF-8"?>
                     <options>';
                 for ($i = 1; $i <= 5; $i++) {
+                    $preference->options .= '<option>
+                        <label>'. $i . '</label>
+                        <value>'. $i . '</value>
+                    </option>';
+                }
+                $preference->options    .= '</options>';
+                break;            
+            case self::EMAILS_PERPAGE:
+                $preference->value      = 50;
+                $preference->options    = '<?xml version="1.0" encoding="UTF-8"?>
+                    <options>';
+                for ($i = 25; $i <= 100; $i=$i*2) {
                     $preference->options .= '<option>
                         <label>'. $i . '</label>
                         <value>'. $i . '</value>

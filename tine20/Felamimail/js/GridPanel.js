@@ -114,6 +114,8 @@ Tine.Felamimail.GridPanel = Ext.extend(Tine.widgets.grid.GridPanel, {
         
         this.recordProxy = Tine.Felamimail.messageBackend;
         
+        this.defaultPaging.limit = parseInt(Tine.Felamimail.registry.get('preferences').get('emailsPerPage'));        
+
         this.gridConfig.columns = this.getColumns();
         this.initFilterToolbar();
         this.initDetailsPanel();
