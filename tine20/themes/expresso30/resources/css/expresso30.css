@@ -113,6 +113,23 @@ padding: 1px !important;
 color: #333 !important;
 font-weight: bold !important;
 }
+
+.PercentRenderer-progress-bar0 { background-color: transparent !important; }
+.PercentRenderer-progress-bar10 { background-color: #f36 !important; }
+.PercentRenderer-progress-bar20 { background-color: #e69 !important; }
+.PercentRenderer-progress-bar30 { background-color: #d8a !important; }
+.PercentRenderer-progress-bar40 { background-color: #c9a !important; }
+.PercentRenderer-progress-bar50 { background-color: #baa !important; }
+.PercentRenderer-progress-bar60 { background-color: #aa9 !important; }
+.PercentRenderer-progress-bar70 { background-color: #aa8 !important; }
+.PercentRenderer-progress-bar80 { background-color: #ab8 !important; }
+.PercentRenderer-progress-bar90 { background-color: #9b8 !important; }
+.PercentRenderer-progress-bar100 { background-color: #8c7 !important; }
+
+.PercentRenderer .x-progress-bar {
+	border: 0px !important;
+}
+
 .x-toolbar .xtb-sep {
 background-image: none;
 background-color: #ccc;
