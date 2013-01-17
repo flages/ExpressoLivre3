@@ -28,6 +28,9 @@ class Felamimail_Frontend_Http extends Tinebase_Frontend_Http_Abstract
     {
         $tmpFile = tempnam(Tinebase_Core::getTempDir(), '');
 
+        $file = new Zend_Form_Element_File('file');
+        $maxsize = $file->getMaxFileSize();
+
         if(move_uploaded_file($_FILES['upload']['tmp_name'], $tmpFile)) {
             $image_id = str_replace(Tinebase_Core::getTempDir().'/','',$tmpFile);
             $image_size = filesize($tmpFile);
@@ -47,7 +50,7 @@ class Felamimail_Frontend_Http extends Tinebase_Frontend_Http_Abstract
             }
         }
         else {
-            echo '{"success":false}';
+            echo '{"success":false, "maxsize":"' . $maxsize .'"}';
         }
             
     }

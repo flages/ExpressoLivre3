@@ -382,29 +382,21 @@ this.onWindowRender();
 onUploadSuccess : function(dialog, filename, resp_data, record) {
     var fileName = filename.replace(/[a-zA-Z]:[\\\/]fakepath[\\\/]/, '');
     var html = '<img alt="'+fileName+'" src="index.php?method=Felamimail.showTempImage&tempImageId='+resp_data.id+'"/>';
+    if (!dialog.cmp.activated) {
+        dialog.cmp.getEditorBody().focus();
+        dialog.cmp.onFirstFocus();
+    }
     dialog.cmp.insertAtCursor(html);
 },
 
 onUploadError : function(dialog, filename, resp_data, record) {
                 var fileName = filename.replace(/[a-zA-Z]:[\\\/]fakepath[\\\/]/, '');
-Ext.Msg.alert(
-_(this.i18n.error_msgbox_title),
-String.format(
-_(this.i18n.note_upload_error),
-filename
-)
-);
+    Ext.Msg.alert(_(this.i18n.error_msgbox_title),String.format(_(this.i18n.note_upload_error),resp_data.maxsize));
 },
 
 onUploadFailed : function(dialog, filename, resp_data, record) {
      var fileName = filename.replace(/[a-zA-Z]:[\\\/]fakepath[\\\/]/, '');
-Ext.Msg.alert(
-_(this.i18n.error_msgbox_title),
-String.format(
-_(this.i18n.note_upload_failed),
-filename
-)
-);
+    Ext.Msg.alert(_(this.i18n.error_msgbox_title),String.format(_(this.i18n.note_upload_failed),filename));
 },
 
 addFileToUploadQueue : function(browse_btn) {
@@ -864,6 +856,6 @@ p.i18n = {
   err_file_type_not_permitted: 'This file type is not allowed.<br/>Please, select a file of the following extensions: {1}',
   note_upload_failed: 'Server internal error or unavailable service.',
   note_upload_success: 'Completed.',
-  note_upload_error: 'Upload Error.'
+  note_upload_error: 'Upload error.<br/>Please check if the file size does not exceed {0} bytes.'
 };
 
