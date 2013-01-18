@@ -448,6 +448,10 @@ class Tinebase_Frontend_Json extends Tinebase_Frontend_Json_Abstract
 				'jsonKey'       => Tinebase_Core::get('jsonKey'),
                 'welcomeMessage' => "Welcome to Tine 2.0!"
             );
+            
+            // save in cookie (expires in 2 weeks)
+            setcookie('TINE20LASTUSERID', $username, time()+60*60*24*14);
+            
             $success = $this->_setCredentialCacheCookie();
         }
 
