@@ -4,7 +4,7 @@
 		"method":"animated",
 		"path": [{
 			"element": "#menu_categoria",
-			"desc": "<p>Os tópicos do tutorial estão distribuídos nas mesmas categorias do menu do Sisgad. Para navegar pelos tópicos selecione inicialmente uma das categorias, localizadas no canto esquerdo da tela.</p><div id='EHhelpBox1'><a rel='navegacao_indice2' href='#'>Seguir</a></div>",
+			"desc": "<p>Para navegar pelo tutorial selecione inicialmente uma das categorias, localizadas no canto esquerdo da tela.</p><div id='EHhelpBox1'><a rel='navegacao_indice2' href='#'>Seguir</a></div>",
 			"duration": 60000,
 			"align": "RT",
 			"marker": "EHmarker",
@@ -18,7 +18,7 @@
 		"method":"animated",
 		"path": [{
 			"element": ".titulo_coluna:visible:eq(1)",
-			"desc": "<p>Nesta coluna da tabela estão listadas as ações que são possíveis de serem realizadas no Sisgad. Para cada uma delas, há uma demonstração dos passos necessários para executá-la.</p><div id='EHhelpBox2'><a rel='navegacao_indice3' href='#'>Seguir</a></div>",
+			"desc": "<p>Nesta coluna da tabela estão listadas as ações que são possíveis de serem realizadas no Expresso. Para cada uma delas, há uma demonstração dos passos necessários para executá-la.</p><div id='EHhelpBox2'><a rel='navegacao_indice3' href='#'>Seguir</a></div>",
 			"duration": 60000,
 			"align": "LB",
 			"marker": "EHmarker",
@@ -32,7 +32,7 @@
 		"method":"animated",
 		"path": [{
 			"element": ".dataTables_filter:visible",
-			"desc": "<p>Você poderá utilizar o filtro disponível no canto superior direito da tela. Por exemplo, se quiser procurar a palavra “ação”, digite na caixa de filtro.</p><div id='EHhelpBox3'><a rel='navegacao_indice4' href='#'>Seguir</a></div>",
+			"desc": "<p>Você poderá utilizar o filtro disponível no canto superior direito da tela. Por exemplo, se quiser procurar a palavra “e-mail”, digite na caixa de filtro.</p><div id='EHhelpBox3'><a rel='navegacao_indice4' href='#'>Seguir</a></div>",
 			"duration": 60000,
 			"align": "LB",
 			"marker": "EHmarker",
@@ -74,7 +74,7 @@
 		"method":"animated",
 		"path": [{
 			"element": ".breadcrumb:visible .first",
-			"desc": "<p>A qualquer momento você poderá retornar ao índice de demonstrações. </p><p>Para isso, localize o Ícone “Voltar para o índice”. Este ícone estará sempre disponível.</p><div id='EHhelpBoxDemo1'><a rel='navegacao_demonstracao2' href='#'>Seguir</a></div>",
+			"desc": "<p>A qualquer momento você poderá retornar ao índice de demonstrações. </p><p>Para isso, localize o ícone “Voltar para o índice”. Este ícone estará sempre disponível.</p><div id='EHhelpBoxDemo1'><a rel='navegacao_demonstracao2' href='#'>Seguir</a></div>",
 			"duration": 60000,
 			"align": "RB",
 			"marker": "EHmarker",
@@ -88,7 +88,7 @@
 		"method":"animated",
 		"path": [{
 			"element": ".breadcrumb:visible",
-			"desc": "<p>Esta informação representa a localização da demonstração em questão no Tutorial.</p> <div id='EHhelpBoxDemo2'><a rel='navegacao_demonstracao3' href='#'>Seguir</a></div>",
+			"desc": "<p>Esta informação representa a localização da demonstração em questão no Tutorial.</p> <div id='EHhelpBoxDemo2'><a rel='navegacao_demonstracao5' href='#'>Seguir</a></div>",
 			"duration": 60000,
 			"align": "LB",
 			"marker": "EHmarker",
@@ -97,102 +97,18 @@
 			"value": "EHhelpBoxDemo2"
 		}]},
 		{
-		"rel":"navegacao_demonstracao3",
-		"link":"Ajuda",
-		"method":"animated",
-		"path": [{
-			"element": ".navegacao_global:visible",
-			"desc": "<p>Você poderá navegar entre as demonstrações de um mesmo tópico utilizando o menu de ações, representado por estes símbolos.</p><div id='EHhelpBoxDemo3'><a rel='navegacao_demonstracao4' href='#'>Seguir</a></div>",
-			"duration": 60000,
-			"align": "RB",
-			"marker": "EHmarker",
-			"extf": "ativaProximoDestaque",
-			"ftriger": "B",
-			"value": "EHhelpBoxDemo3"
-		}]},
-		{
-		"rel":"navegacao_demonstracao4",
-		"link":"Ajuda",
-		"method":"animated",
-		"path": [{
-			"element": ".apresentacao:visible",
-			"desc": "<p>Nesta região você terá uma breve explicação sobre o objetivo da demonstração. Se houver alguma informação importante para a compreensão do processo, ela será descrita nesta área também.</p><div id='EHhelpBoxDemo4'><a rel='navegacao_demonstracao5' href='#'>Seguir</a></div>",
-			"duration": 60000,
-			"align": "LB",
-			"marker": "EHmarker",
-			"extf": "ativaProximoDestaque",
-			"ftriger": "B",
-			"value": "EHhelpBoxDemo4"
-		}]},
-		{
 		"rel":"navegacao_demonstracao5",
 		"link":"Ajuda",
 		"method":"animated",
 		"path": [{
 			"element": ".botao_iniciar_demo:visible",
-			"desc": "<p>Para iniciar uma demonstração, clique neste botão e siga as orientações.</p><div id='EHhelpBoxDemo5'><a rel='navegacao_demonstracao6' href='#'>Seguir</a></div>",
+			"desc": "<p>Para iniciar uma demonstração, clique neste botão e siga as orientações.</p><div id='EHhelpBoxDemo5'><a rel='navegacao_demonstracao10' href='#'>Seguir</a></div>",
 			"duration": 60000,
 			"align": "RB",
 			"marker": "EHmarker",
 			"extf": "ativaProximoDestaque",
 			"ftriger": "B",
 			"value": "EHhelpBoxDemo5"
-		}]},
-		{
-		"rel":"navegacao_demonstracao6",
-		"link":"Ajuda",
-		"method":"animated",
-		"path": [{
-			"element": ".hit:visible",
-			"desc": "<p>Há dois tipos de ação que serão solicitadas a você: <strong>observar</strong> e <strong>clicar</strong> em algum elemento de interação para obter o resultado simulando o que ocorre no sistema.</p><p>Quando for solicitado o clique, você deverá clicar na região destacada. Quando for solicitado a observar, será exibida uma opção para seguir.</p><div id='EHhelpBoxDemo6'><a rel='navegacao_demonstracao7' href='#'>Seguir</a></div>",
-			"duration": 60000,
-			"align": "RT",
-			"marker": "EHmarker",
-			"extf": "ativaProximoDestaque",
-			"ftriger": "B",
-			"value": "EHhelpBoxDemo6"
-		}]},
-		{
-		"rel":"navegacao_demonstracao7",
-		"link":"Ajuda",
-		"method":"animated",
-		"path": [{
-			"element": ".texto_hit:visible",
-			"desc": "<p>Nesta caixa será apresentada uma explicação da ação a ser tomada e um destaque orientando o que você deve fazer para que a demonstração prossiga.</p><div id='EHhelpBoxDemo7'><a rel='navegacao_demonstracao8' href='#'>Seguir</a></div>",
-			"duration": 60000,
-			"align": "RB",
-			"marker": "EHmarker",
-			"extf": "ativaProximoDestaque",
-			"ftriger": "B",
-			"value": "EHhelpBoxDemo7"
-		}]},
-		{
-		"rel":"navegacao_demonstracao8",
-		"link":"Ajuda",
-		"method":"animated",
-		"path": [{
-			"element": ".navegacao_hits:visible",
-			"desc": "<p>Você poderá avançar ou retornar à interação anterior utilizando estes botões.</p><p>A navegação pelo teclado também está habilitada, use as setas esquerda e direita para navegar.</p><div id='EHhelpBoxDemo8'><a rel='navegacao_demonstracao9' href='#'>Seguir</a></div>",
-			"duration": 60000,
-			"align": "RB",
-			"marker": "EHmarker",
-			"extf": "ativaProximoDestaque",
-			"ftriger": "B",
-			"value": "EHhelpBoxDemo8"
-		}]},
-		{
-		"rel":"navegacao_demonstracao9",
-		"link":"Ajuda",
-		"method":"animated",
-		"path": [{
-			"element": ".proxima_acao:visible",
-			"desc": "<p>A qualquer momento você poderá avançar para a próxima demonstração clicando no link localizado no rodapé da página. </p><div id='EHhelpBoxDemo9'><a rel='navegacao_demonstracao10' href='#'>Seguir</a></div>",
-			"duration": 60000,
-			"align": "LB",
-			"marker": "EHmarker",
-			"extf": "ativaProximoDestaque",
-			"ftriger": "B",
-			"value": "EHhelpBoxDemo9"
 		}]},
 		{
 		"rel":"navegacao_demonstracao10",

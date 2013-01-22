@@ -572,7 +572,7 @@ $(document).ready(function(){
 			//adiciona divs .efeito_mascara se elas ainda não tiverem sido adicionadas
 			if(!$('#interacao'+index_interacao+' .efeito_mascara').length){
 				$('#interacao'+index_interacao).append("<div class='efeito_mascara'></div><div class='efeito_mascara'></div><div class='efeito_mascara'></div><div class='efeito_mascara'></div>");
-				$('.efeito_mascara').css({opacity:0.3});
+				$('.efeito_mascara').css({opacity:0.5});
 			}	
 						
 			// posiciona e redimensiona cada parte do efeito_mascara, deixando uma "janela" na região do hit
@@ -698,17 +698,17 @@ $(document).ready(function(){
 		return false;
 	}
 	//volta para o início da demo para mostrar o botão 'Iniciar demonstração'
-	$(document).on("mouseup","#EHhelpBoxDemo4 a",function(){
-		index_interacao = $('#sub'+index_subtopico+' .interacao:first').attr('id').split('interacao')[1];
+	$(document).on("mouseup","#EHhelpBoxDemo2 a",function(){
+		index_interacao = $("#sub"+index_subtopico+" .interacao:first").attr("id").split("interacao")[1];
 		atualizaIndices();
 		exibeInteracao();
 		inicioDemonstracao();
 	});
 	//simula clique no botão 'Iniciar demonstração'
-	$(document).on("mouseup","#EHhelpBoxDemo5 a",function(){
+	/*$(document).on("mouseup","#EHhelpBoxDemo5 a",function(){
 		$("#interacao"+index_interacao+" .botao_iniciar_demo").remove();
 		$("#interacao"+index_interacao+" .efeito_mascara_inicio").fadeOut("fast", function(){ $(this).remove(); });
-	});
+	});*/
 	//termina help
 	$(document).on("mouseup","#fecha_ehelp",function(){
 		$('#EHtooltip').fadeOut("slow", $('#EHtooltip').remove());

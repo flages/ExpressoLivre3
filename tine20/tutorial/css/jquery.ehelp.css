@@ -55,6 +55,9 @@
 	border:1px solid #999;/*#E6952A;*/
 	font-size:13px;
 	padding:20px;
+	-moz-box-shadow: 0px 0px 4px #666; /* FF 3.5+ */
+	-webkit-box-shadow: 0px 0px 4px #666; /* Safari 3.0+, Chrome */
+	box-shadow: 0px 0px 4px #666; /* Opera 10.5, IE 9.0 */ 
 }
 
 #EHtooltip p{

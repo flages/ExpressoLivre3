@@ -40,7 +40,7 @@ $(document).ready(function(){
 				});
 		});
 		//digita texto no filtro
-		$('.dataTables_filter:visible input').focus().val('ação');
+		$('.dataTables_filter:visible input').focus().val('e-mail');
 
 		return false;
 	}
@@ -58,6 +58,12 @@ $(document).ready(function(){
 		$('#EHtooltip').fadeOut("slow", $('#EHtooltip').remove());
 		$('#EHpointer').fadeOut("slow", $('#EHpointer').remove());
 		$('.EHmarker').removeClass('EHmarker');
+		//remove texto no filtro
+		$('.dataTables_filter:visible input').focus().val('').blur();
+		var e = jQuery.Event("keyup");
+		e.which = 13;
+		e.keyCode = 13;
+		$(".dataTables_filter input").trigger(e);
 	});
 	/*$.terminaAjuda = function(obj) {
 		$('#EHtooltip').fadeOut("slow", $('#EHtooltip').remove());
@@ -76,7 +82,13 @@ $(document).ready(function(){
 		$(".texto_intro_tutorial").css("margin-top", ($(".texto_intro_tutorial").innerHeight() / 2) * -1)
 								  .fadeIn("fast");
 	}
-	inicioTutorial();
+	// lê parâmetro passado via querystring - url da barra de endereços
+	var querystring = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&').toString();
+	//se foi passado parâmetro, exibe mensagem de apresentação
+	if(querystring.indexOf("mod") < 0){ 
+		inicioTutorial();
+	}
+	
 	// função de clique no botão #inicia_tutorial da mensagem de início do tutorial (remove a mensagem) 
 	// vale também para cliques na div .efeito_mascara_indice e tecla ESC
 	$(document).on("click", "#inicia_tutorial, .efeito_mascara_indice", function(event) {

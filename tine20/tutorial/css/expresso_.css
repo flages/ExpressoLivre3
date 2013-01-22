@@ -359,6 +359,9 @@ background-color: #ccffcc;
 	top:50%;
 	left:50%;
 	margin-left:-180px;
+	-moz-box-shadow: 0px 0px 7px #333; /* FF 3.5+ */
+	-webkit-box-shadow: 0px 0px 7px #333; /* Safari 3.0+, Chrome */
+	box-shadow: 0px 0px 7px #333; /* Opera 10.5, IE 9.0 */ 
 }
 
 .texto_intro_tutorial p{
@@ -457,11 +460,11 @@ a.link_proxima_acao:hover{
 }
 
 .logo {
-	background:transparent url(../imagens/tema/logo_sisgad.png) no-repeat scroll 0 0;
+	background:transparent url(../imagens/tema/logo_expresso_.png) no-repeat scroll 0 0;
 	height:62px;
 	position:relative;
 	float:right;
-	width:100px;
+	width:170px;
 	margin-top:32px;
 }
 
@@ -469,16 +472,14 @@ a.link_proxima_acao:hover{
 	display:block;
 	height:62px;
 	text-indent:-9999em;
-	width:99px;
 }
 
 .logo.index {
 	height:62px;
-	position:relative;
 	float:left;
-	width:100px;
 	margin-top:32px;
-	left:137px;
+	left:67px;
+	z-index:2;
 }
 
 .descricao_acao {
@@ -918,6 +919,9 @@ width:100px;
 	z-index:7;
 	padding:12px;
 	/*cursor:move;*/
+	-moz-box-shadow: 2px 2px 3px #666; /* FF 3.5+ */
+	-webkit-box-shadow: 2px 2px 3px #666; /* Safari 3.0+, Chrome */
+	box-shadow: 2px 2px 3px #666; /* Opera 10.5, IE 9.0 */ 
 }
 .importante_hit {
 	width:300px;
@@ -1170,18 +1174,34 @@ width:100px;
 }	
 
 /*LAYOUT INFORMACAO*/
-.informacao .orientacao {
+.texto_hit.informacao {
 	top: 60px;
-	left: 50%;
+	left: 50% !important;
     margin-left: -225px;
 	width:400px;
 	position:absolute;
 	border:1px solid #727272;
 	font-size:13px;
 	z-index:7;
-	padding:60px 15px 20px 30px;
+	padding:25px 20px 20px 25px;
 	color:#333;
 	background:url(../imagens/tema/informacao_bg.jpg) no-repeat 21px 21px #fff;
+	-moz-box-shadow: 0px 0px 7px #333; /* FF 3.5+ */
+	-webkit-box-shadow: 0px 0px 7px #333; /* Safari 3.0+, Chrome */
+	box-shadow: 0px 0px 7px #333; /* Opera 10.5, IE 9.0 */ 
+	filter:progid:DXImageTransform.Microsoft.dropshadow(OffX=0px, OffY=0px, Color='#333'); /* IE6,IE7 */ 
+	-ms-filter:"progid:DXImageTransform.Microsoft.dropshadow(OffX=0px, OffY=0px,Color='#333')"; /* IE8 */ 
+}
+.texto_hit.informacao .navegacao_hits,
+.texto_hit.informacao .texto_instrucao {
+	display:none;
+}
+.texto_hit.informacao .hit_etapa {
+	color:#aaa;
+	margin-bottom:25px;
+}
+.texto_hit.informacao .botao_seguir {
+	margin-top:15px;
 }
 
 .informacao .orientacao textarea {
@@ -1313,6 +1333,7 @@ padding-top:20px;
 	border:1px solid #999999;
 	float:right;
 	margin-right:4px;
+	margin-bottom:-1px;
 }
 .dados, .dataTables_filter input {
     background-color: #fff;
