@@ -145,7 +145,7 @@ Tine.Calendar.MainScreenCenterPanel = Ext.extend(Ext.Panel, {
             scope: this
         });
         
-        this.actions_print = new Ext.Action({
+        this.action_print = new Ext.Action({
             requiredGrant: 'readGrant',
             text: this.app.i18n._('Print Page'),
             handler: this.onPrint,
