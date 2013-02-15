@@ -74,7 +74,8 @@ Tine.Felamimail.ComposeEditor = Ext.extend(Ext.form.HtmlEditor, {
             new Ext.ux.form.HtmlEditor.RemoveFormat(),
             new Ext.ux.form.HtmlEditor.EndBlockquote(),
 	    new Ext.ux.form.HtmlEditor.SpellChecker(),
-            new Ext.ux.form.HtmlEditor.SpecialKeys()
+            new Ext.ux.form.HtmlEditor.SpecialKeys(),
+            new Ext.ux.form.HtmlEditor.UndoRedo()
         ];
         
         Tine.Felamimail.ComposeEditor.superclass.initComponent.call(this);
@@ -89,6 +90,7 @@ Tine.Felamimail.ComposeEditor = Ext.extend(Ext.form.HtmlEditor, {
 		delete this.height;
 		delete this.width;
 	}
+
 });
 
 Ext.namespace('Ext.ux.form.HtmlEditor');
@@ -313,4 +315,211 @@ Ext.ux.form.HtmlEditor.SpecialKeys = Ext.extend(Ext.util.Observable , {
             this.cmp.fireEvent('keydown', e);
         }
     }
+});
+
+/**
+ * @class Ext.ux.form.HtmlEditor.UndoRedo
+ * @extends Ext.util.Observable
+ * 
+ * plugin for htmleditor that fires events for undo/redo keys (CTRL-Z and CTRL-Y)
+ * 
+ * TODO move this to ux dir
+ */
+Ext.ux.form.HtmlEditor.UndoRedo = Ext.extend(Ext.util.Observable , {
+    volume: -1,
+    history: new Array(),
+    index: 0,
+    placeholder: 0,
+    count: 0,
+    ignore: false,
+
+    // private
+    init: function(cmp){
+        this.cmp = cmp;
+        this.cmp.on('initialize', this.onInit, this);
+        this.cmp.on('sync', this.onSync, this);
+    },
+    // private
+    onInit: function(){
+        Ext.EventManager.on(this.cmp.getDoc(), {
+            'keydown': this.onKeydown,
+            scope: this
+        });
+    },
+
+    /**
+     * on keydown 
+     * 
+     * @param {Event} e
+     */
+    onKeydown: function(e) {
+        if (e.ctrlKey) {
+            if (e.getKey() == e.Z) {
+                this.undo();
+                e.preventDefault();
+            }
+            if (e.getKey() == e.Y) {
+                this.redo();
+                e.preventDefault();
+            }
+        }
+    },
+    
+
+    /**
+     * Protected method that will not generally be called directly. Syncs the contents
+     * of the editor iframe with the textarea.
+     */
+    onSync : function(){
+        if(this.cmp.initialized){
+            if (this.ignore) {
+                this.ignore = false;
+            }
+            else {
+                this.updateHistory();
+            }
+        }
+    },
+    
+    updateHistory : function(){
+        // get the current html content from the element
+        var content = this.cmp.el.dom.value;
+
+        // if no historic records exist yet or content has
+        // changed since the last record then
+        if (this.index == 0 || this.history[this.index].content != content) {
+
+            // if size of rollbacks has been reached then drop
+            // the oldest record from the array
+            if (this.count == this.volume) {
+                this.history.shift();
+                this.placeholder--;
+            }
+
+            // else increment the index
+            else {
+                this.index++;
+            }
+
+            // record the changed content and cursor position
+            if (!Ext.isIE) {
+                var selection = this.cmp.getDoc().getSelection();
+            }
+            if (Ext.isGecko) {
+                var range = selection.getRangeAt(0);
+                this.history[this.index] = {
+                    content: content,
+                    bookmark: (Ext.isIE ? null : {startOffset:range.startOffset,endOffset:range.endOffset,startContainer:range.startContainer,endContainer:range.endContainer})
+                };
+            }
+            else {
+                this.history[this.index] = {
+                    content: content,
+                    bookmark: (Ext.isIE ? null : selection.getRangeAt(0))
+                };
+            }
+            this.count = this.index;
+        }
+    },
+
+    // perform the undo
+    undo: function() {
+
+        // ensure that there is data to undo
+        if (this.index > 1) {
+
+            // decrement the index
+            this.index--;
+
+            // if in source edit mode then update the element directly
+            if (this.cmp.sourceEditMode) {
+                this.resetElement();
+            }
+
+            // else update the editor body
+            else {
+                this.reset();
+
+            // ignore next record request as syncValue is called
+            // by Ext.form.HtmlEditor.updateToolBar and we don't
+            // want our undo reversed again
+            this.ignore = true;
+
+            // update the editor toolbar and return focus
+            this.cmp.updateToolbar();
+            this.cmp.focus();
+            }
+        }
+    },
+
+    // perform the redo
+    redo: function() {
+
+        // ensure that there is data to redo
+        if (this.index < this.count) {
+
+            // increment the index
+            this.index++;
+
+            // if in source edit mode then update the element directly
+            if (this.cmp.sourceEditMode) {
+                this.resetElement();
+            }
+
+            // else update the editor body
+            else {
+                this.reset();
+
+                // ignore next record request as syncValue is called
+                // by Ext.form.HtmlEditor.updateToolBar and we don't
+                // want our redo reversed again
+                this.ignore = true;
+
+                // update the editor toolbar and return focus
+                this.cmp.updateToolbar();
+                this.cmp.focus();
+            }
+        }
+    },
+    
+    // updates the editor body
+    reset : function() {
+        var content = this.history[this.index].content;
+        this.cmp.getEditorBody().innerHTML = content;
+        if (content=='' && Ext.isGecko) {
+            // FF does not let the content be empty and adds a BR tag
+            var brs = this.cmp.getEditorBody().getElementsByTagName('br');
+            try { this.cmp.getEditorBody().removeChild(brs[0]); } 
+            catch (e) { }
+        }
+        this.resetBookmark();
+    },
+
+    // updates the element (when in source edit mode)
+    resetElement : function() {
+        this.cmp.el.dom.value = this.history[this.index].content;
+        this.resetBookmark();
+    },
+
+    // reposition the cursor
+    resetBookmark : function() {
+        // checks if there is support for createRange method
+        if (this.cmp.getDoc().createRange) {
+            var node = this.cmp.getEditorBody().lastChild;
+            var range = this.cmp.getDoc().createRange();
+            if (node) {
+                if (node.tagName=='BR' && node.previousSibling) {
+                    // FF uses to add a BR tag at the end of the text
+                    node = node.previousSibling;
+                }
+                var len = node.textContent.length;
+                range.selectNodeContents(node);
+                range.collapse(false);
+            }
+            var selection = this.cmp.getDoc().getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+        }
+    }    
+    
 });
