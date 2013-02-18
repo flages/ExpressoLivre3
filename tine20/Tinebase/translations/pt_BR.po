@@ -2624,7 +2624,7 @@ msgstr "Completado."
 
 #: /library/ExtJS/plugins/Ext.ux.form.HtmlEditor.Plugins/src/Ext.ux.form.HtmlEditor.UploadImage.js:866
 msgid "Upload error.<br/>Please check if the file size does not exceed {0} bytes."
-msgstr "Erro no carregamento.<br/>Por favor, verifique se o tamanho do arquivo a ser enviado não é superior a XXX bytes."
+msgstr "Erro no carregamento.<br/>Por favor, verifique se o tamanho do arquivo a ser enviado não é superior a {0} bytes."
 
 #: /User/Ldap.php:314
 msgid "Server is readonly."
