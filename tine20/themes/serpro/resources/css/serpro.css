@@ -451,3 +451,5 @@ font-size: 12px;
     background-image: none;
 }
 
+.importance_high { color: #f00; }
+.flag_flagged { color: #93f; }
