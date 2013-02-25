@@ -1063,7 +1063,15 @@ Ext.namespace('Tine.Felamimail');
         this.htmlEditor = new Tine.Felamimail.ComposeEditor({
 			id: 'message_editor_body',
             fieldLabel: this.app.i18n._('Body'),
-            flex: 1  // Take up all *remaining* vertical space
+            flex: 1,  // Take up all *remaining* vertical space
+            listeners : {
+                scope : this,
+                initialize : function(editor) {
+                    if (this.replyTo) {
+                        editor.focus();
+                    }
+                }
+            }
         });
         
         return {
