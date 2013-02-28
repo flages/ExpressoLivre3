@@ -22,9 +22,18 @@
     
     <link rel="shortcut icon" href="<?php echo $theme_config[0]; ?>" type="image/x-icon" />
     <link rel="chrome-application-definition" href="chrome_web_app.json" />
+    <style type="text/css">
+        #loading_mask{position:absolute;top:0;left:0;bottom:0;right:0;z-index:999;width:100%;height:100%;background-color:#eee;opacity:0.8;filter:alpha(opacity=80)}
+        #loading_message{border:solid 4px #333;border-radius:4px;padding:12px;font-family:Arial,Helvetica,sans-serif;font-size:16px;margin:10% auto;z-index:999;width:300px;height:110px;text-align:center;color:#000;background-color:#ccc;opacity:1.0;filter:alpha(opacity=100)}
+    </style>
 </head>
 <body>
     <!-- Loading Indicator -->
+    <div id="loading_mask">
+        <div id="loading_message">
+            <?php echo Tinebase_View::getLoadWarning(); ?>
+        </div>
+    </div>
     <div class="tine-viewport-waitcycle" style="position: absolute; top: 50%; left: 50%; background-image: url(data:image/gif;base64,R0lGODlhEAAQALMMAKqooJGOhp2bk7e1rZ2bkre1rJCPhqqon8PBudDOxXd1bISCef///wAAAAAAAAAAACH/C05FVFNDQVBFMi4wAwEAAAAh+QQFAAAMACwAAAAAEAAQAAAET5DJyYyhmAZ7sxQEs1nMsmACGJKmSaVEOLXnK1PuBADepCiMg/DQ+/2GRI8RKOxJfpTCIJNIYArS6aRajWYZCASDa41Ow+Fx2YMWOyfpTAQAIfkEBQAADAAsAAAAABAAEAAABE6QyckEoZgKe7MEQMUxhoEd6FFdQWlOqTq15SlT9VQM3rQsjMKO5/n9hANixgjc9SQ/CgKRUSgw0ynFapVmGYkEg3v1gsPibg8tfk7CnggAIfkEBQAADAAsAAAAABAAEAAABE2QycnOoZjaA/IsRWV1goCBoMiUJTW8A0XMBPZmM4Ug3hQEjN2uZygahDyP0RBMEpmTRCKzWGCkUkq1SsFOFQrG1tr9gsPc3jnco4A9EQAh+QQFAAAMACwAAAAAEAAQAAAETpDJyUqhmFqbJ0LMIA7McWDfF5LmAVApOLUvLFMmlSTdJAiM3a73+wl5HYKSEET2lBSFIhMIYKRSimFriGIZiwWD2/WCw+Jt7xxeU9qZCAAh+QQFAAAMACwAAAAAEAAQAAAETZDJyRCimFqbZ0rVxgwF9n3hSJbeSQ2rCWIkpSjddBzMfee7nQ/XCfJ+OQYAQFksMgQBxumkEKLSCfVpMDCugqyW2w18xZmuwZycdDsRACH5BAUAAAwALAAAAAAQABAAAARNkMnJUqKYWpunUtXGIAj2feFIlt5JrWybkdSydNNQMLaND7pC79YBFnY+HENHMRgyhwPGaQhQotGm00oQMLBSLYPQ9QIASrLAq5x0OxEAIfkEBQAADAAsAAAAABAAEAAABE2QycmUopham+da1cYkCfZ94UiW3kmtbJuRlGF0E4Iwto3rut6tA9wFAjiJjkIgZAYDTLNJgUIpgqyAcTgwCuACJssAdL3gpLmbpLAzEQA7); width: 16px; height: 16px">&#160;</div><div class="tine-viewport-poweredby" style="position: absolute; bottom: 10px; right: 10px; font:normal 12px arial, helvetica,tahoma,sans-serif;">Powered by: <a target="_blank" href="http://www.tine20.org/">Tine 2.0</a></div>
         <?php
     if(isset(Tinebase_Core::getConfig()->captcha->count) && Tinebase_Core::getConfig()->captcha->count != 0)
@@ -71,5 +80,6 @@
      ?>
 
     <noscript><p> <?php echo $translate->_('You need to enable javascript to use') ?> <a href="http://www.tine20.org/" title="online open source groupware and crm">Tine 2.0</a></p></noscript>
+    <script type="text/javascript">document.getElementById('loading_mask').style.display='none';</script>
 </body>
 </html>

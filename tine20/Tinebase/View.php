@@ -56,6 +56,12 @@ class Tinebase_View
 		$output[2] =  '<link rel="stylesheet" type="text/css" href="themes/'.$pathTheme.'/resources/css/'.$pathTheme.'.css" />';
 		return $output;
 	}
+        
+    public static function getLoadWarning()
+    {
+        $translate = Tinebase_Translation::getTranslation('Tinebase');
 
+        return $translate->_('Wait for the application load completion.<br/>Interrupting it could lead to unwanted behaviours.<br/><br/>To reload the application, press F5.');
+    }
 
 }
