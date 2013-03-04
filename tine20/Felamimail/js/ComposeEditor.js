@@ -37,9 +37,11 @@ Tine.Felamimail.ComposeEditor = Ext.extend(Ext.form.HtmlEditor, {
             + '<title></title>'
             + '<style type="text/css">'
                 // standard css reset
-                + "html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,blockquote,th,td{margin:0;padding:0;}img,body,html{border:0;}address,caption,cite,code,dfn,th,var{font-style:normal;font-weight:normal;}ol,ul {list-style:none;}caption,th {text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;}q:before,q:after{content:'';}"
+                + "html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,th,td{margin:0;padding:0;}img,body,html{border:0;}address,caption,cite,code,dfn,th,var{font-style:normal;font-weight:normal;}ol,ul {list-style:none;}caption,th {text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;}q:before,q:after{content:'';}"
                 // small forms
-                + "html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,blockquote,th,td{font-size: small;}"
+                + "html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p,blockquote,th,td{font-size: 100%;}"
+                // standard blockquotes
+                + "blockquote{margin-top:0;margin-bottom:0;}"
                 // lists
                 + "ul {list-style:circle outside; margin-left: 20px;}"
                 + "ol {list-style:decimal outside; margin-left: 20px;}"
@@ -49,7 +51,7 @@ Tine.Felamimail.ComposeEditor = Ext.extend(Ext.form.HtmlEditor, {
                     + 'padding-left: 10px;'
                     + 'border-left: 2px solid #000088;'
                 + '} '
-            + '.editor-body-panel { font-size: 14px !important; }'
+            + '.editor-body-panel { font-size: 100% !important; }'
             + '</style>'
             + '</head>'
             + '<body class="editor-body-panel" style="padding: 5px 0px 0px 5px; margin: 0px">'
@@ -72,7 +74,7 @@ Tine.Felamimail.ComposeEditor = Ext.extend(Ext.form.HtmlEditor, {
             new Ext.ux.form.HtmlEditor.Table(),  
             new Ext.ux.form.HtmlEditor.IndentOutdent(),  
             new Ext.ux.form.HtmlEditor.RemoveFormat(),
-            new Ext.ux.form.HtmlEditor.EndBlockquote(),
+//            new Ext.ux.form.HtmlEditor.EndBlockquote(),
 	    new Ext.ux.form.HtmlEditor.SpellChecker(),
             new Ext.ux.form.HtmlEditor.SpecialKeys(),
             new Ext.ux.form.HtmlEditor.UndoRedo()
@@ -522,4 +524,27 @@ Ext.ux.form.HtmlEditor.UndoRedo = Ext.extend(Ext.util.Observable , {
         }
     }    
     
+});
+
+/**
+ * the Tinebase/js/extFixes code for fixKeys is not needed anymore
+ */
+Ext.apply(Ext.form.HtmlEditor.prototype, {
+    fixKeys : function(){ // load time branching for fastest keydown performance
+        // do nothing
+    }
+});
+
+/**
+ * the ExtJS/src/widgets/form/HtmlEditor code for relayCmd needs to return focus to editor
+ */
+Ext.apply(Ext.form.HtmlEditor.prototype, {
+    relayCmd : function(cmd, value){
+        (function(){
+            this.focus();
+            this.execCmd(cmd, value);
+            this.updateToolbar();
+            this.deferFocus();
+        }).defer(10, this);
+    }
 });

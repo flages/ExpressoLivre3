@@ -424,10 +424,10 @@ padding: 0 5px;
 font-size: 12px;
 }
 
+.felamimail-message-body-html, 
 .preview-panel-felamimail-body {
-    font-size: 100%;
+    font-size: 16px;
 }
-
 .preview-panel-felamimail-body { 
     margin: 0; 
     padding: 0; 
@@ -448,3 +448,5 @@ font-size: 12px;
 
 .importance_high { color: #f00; }
 .flag_flagged { color: #93f; }
+
+blockquote { margin-left: 40px; } /* ExtJS clears blockquote default browser's stylesheet */
