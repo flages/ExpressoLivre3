@@ -435,7 +435,8 @@ Ext.namespace('Tine.Felamimail');
     setMessageBodyReply: function() {
         var date = (this.replyTo.get('received')) ? this.replyTo.get('received') : new Date();
         
-        this.msgBody = String.format(this.app.i18n._('On {0}, {1} wrote'), 
+        this.msgBody = '<br/><br/>' 
+          + String.format(this.app.i18n._('On {0}, {1} wrote'), 
             Tine.Tinebase.common.dateTimeRenderer(date), 
             Ext.util.Format.htmlEncode(this.replyTo.get('from_name'))
         ) + ':<br/>'
