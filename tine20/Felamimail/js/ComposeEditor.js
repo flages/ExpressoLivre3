@@ -10,6 +10,43 @@
  
 Ext.namespace('Tine.Felamimail');
 
+Ext.override(Ext.form.HtmlEditor, {
+    onEditorEvent: function() {
+        if (Ext.isIE) {
+            this.currentRange = this.getDoc().selection.createRange();
+        }
+        this.updateToolbar();
+    },
+    insertAtCursor: function(text) {
+        if (Ext.isIE) {
+            this.win.focus();
+            var r = this.currentRange;
+            if (r) { 
+                r.expand();
+            }
+            else {
+                r = this.doc.selection.createRange();
+                if (r) {
+                    r.collapse(true);
+                }
+            }
+            if (r) {
+                r.pasteHTML(text);
+                this.syncValue();
+                this.deferFocus();
+            }
+
+        } else if (Ext.isSafari) {
+            this.execCmd('InsertText', text);
+            this.deferFocus();
+        } else { //if (Ext.isGecko || Ext.isOpera) {
+            this.win.focus();
+            this.execCmd('InsertHTML', text);
+            this.deferFocus();
+        }
+    }
+});
+
 /**
  * @namespace   Tine.Felamimail
  * @class       Tine.Felamimail.ComposeEditor

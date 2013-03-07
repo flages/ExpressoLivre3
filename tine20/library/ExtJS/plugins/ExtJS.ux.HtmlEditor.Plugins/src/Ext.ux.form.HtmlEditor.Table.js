@@ -134,6 +134,12 @@ Ext.ux.form.HtmlEditor.Table = Ext.extend(Ext.util.Observable, {
                                         }
                                         html += "</table>";
                                         this.cmp.insertAtCursor(html);
+                                        if (Ext.isIE) {
+                                            var r = this.cmp.currentRange || this.cmp.getDoc().selection.createRange();
+                                            if (r) { 
+                                                r.select();
+                                            }
+                                        }
                                     }
                                     this.tableWindow.hide();
                                 }else{
