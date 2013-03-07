@@ -7,6 +7,17 @@ html, body {
     height:100%;
 }
 
+/*------------ ExtJS clears the following default browser's styles -----------*/
+strong { 
+    font-weight: bold; 
+}
+em { 
+    font-style: italic; 
+}
+blockquote { 
+    margin-left: 40px; 
+} 
+
 /* ----- actions -------------------------------------------------------------*/
 .action_delegate {
     background-image:url(../../images/list-delegate-16x16.png) !important;
