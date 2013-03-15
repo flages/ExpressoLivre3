@@ -61,6 +61,8 @@ if((isset($_SERVER['REDIRECT_ACTIVESYNC']) && $_SERVER['REDIRECT_ACTIVESYNC'] ==
 	}
 }
 
+Tinebase_Core::checkPostSize();
+
 Tinebase_Core::dispatchRequest();
 
 // log profiling information

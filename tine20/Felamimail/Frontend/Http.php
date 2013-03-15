@@ -50,7 +50,7 @@ class Felamimail_Frontend_Http extends Tinebase_Frontend_Http_Abstract
             }
         }
         else {
-            echo '{"success":false, "maxsize":"' . $maxsize .'"}';
+            echo '{"success":false, "method":"uploadImage", "maxsize":"' . $maxsize .'"}';
         }
             
     }

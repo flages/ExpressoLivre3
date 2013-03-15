@@ -165,7 +165,7 @@ class Tinebase_Core
         ini_set('iconv.internal_encoding', 'utf-8');
 
         $server = NULL;
-        
+
         /**************************** JSON API *****************************/
         if ( (isset($_SERVER['HTTP_X_TINE20_REQUEST_TYPE']) && $_SERVER['HTTP_X_TINE20_REQUEST_TYPE'] == 'JSON')  ||
             (isset($_SERVER['CONTENT_TYPE']) && substr($_SERVER['CONTENT_TYPE'],0,16) == 'application/json')  ||
@@ -1278,4 +1278,58 @@ class Tinebase_Core
         }
         return self::get(self::SCHEDULER);
     }
+
+    /**
+     * Check if post exceeds post_max_size
+     *
+     */
+    public static function checkPostSize()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            // checking if post length > POST_MAX_SIZE 
+            if (empty($_POST) && empty($_FILES)) {
+                // Get maximum size and measurement unit
+                $post_max = ini_get('post_max_size');
+                $post_unit = substr($post_max, -1);
+                if (!is_numeric($post_unit)) {
+                    $post_max = substr($post_max, 0, -1);
+                }
+
+                // convert to bytes
+                switch (strtoupper($post_unit)) {
+                    case 'G':
+                    $post_max *= 1024;
+                    case 'M':
+                    $post_max *= 1024;
+                    case 'K':
+                    $post_max *= 1024;
+                }
+
+                // assert the content length is within limits
+                $post_length = $_SERVER['CONTENT_LENGTH'];
+                if ($post_max < $post_length) {
+                    // Get maximum upload size and measurement unit
+                    $upload_max = ini_get('upload_max_filesize');
+                    $upload_unit = substr($upload_max, -1);
+                    if (!is_numeric($post_unit)) {
+                        $upload_max = substr($upload_max, 0, -1);
+                    }
+
+                    // convert to bytes
+                    switch (strtoupper($upload_unit)) {
+                        case 'G':
+                        $upload_max *= 1024;
+                        case 'M':
+                        $upload_max *= 1024;
+                        case 'K':
+                        $upload_max *= 1024;
+                    }
+
+                    echo '{"success":false, "postsize":"' . $post_max .'", "maxsize":"' . $upload_max . '"}';      
+                    throw new Exception('Maximum content length size (' . $post_max . ') exceeded');
+                }
+            }
+        }
+    }
+        
 }

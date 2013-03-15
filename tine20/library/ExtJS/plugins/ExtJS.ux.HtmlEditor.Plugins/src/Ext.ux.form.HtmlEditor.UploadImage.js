@@ -21,8 +21,27 @@ Ext.ux.form.HtmlEditor.UploadImage = Ext.extend(Ext.util.Observable, {
         var css = '.x-edit-image {background: url(ux/icons/picture.png) 0 0 no-repeat !important;}';
         Ext.util.CSS.createStyleSheet(css, 'editor-css');
 
+        this.fsa = new Ext.ux.Utils.FSA('created', this.getControl(), this);
+
+        // Registering dialog events.
+        this.addEvents({
+            'filetest': true,
+            'fileadd' : true,
+            'fileremove' : true,
+            'uploadsuccess' : true,
+            'uploaderror' : true,
+            'uploadfailed' : true,
+            'uploadstart' : true,
+            'uploadstop' : true,
+            'uploadcomplete' : true,
+            'fileuploadstart' : true
+        });
+    
+    },
+
+    getControl : function() {
         // Setting automata protocol
-        var tt = {
+        return {
             // --------------
             'created' : {
             // --------------
@@ -145,284 +164,280 @@ Ext.ux.form.HtmlEditor.UploadImage = Ext.extend(Ext.util.Observable, {
             ]
             }
         };
-        this.fsa = new Ext.ux.Utils.FSA('created', tt, this);
-
-        // Registering dialog events.
-        this.addEvents({
-            'filetest': true,
-            'fileadd' : true,
-            'fileremove' : true,
-            'uploadsuccess' : true,
-            'uploaderror' : true,
-            'uploadfailed' : true,
-            'uploadstart' : true,
-            'uploadstop' : true,
-            'uploadcomplete' : true,
-            'fileuploadstart' : true
-        });
+    },
     
+    recreateForm : function() {
+        if (this.form) {
+            this.form.parentNode.removeChild(this.form);
+        }
+        this.createForm();
+    },
+    
+    setBase64 : function(base64) {
+        this.base64 = base64;
+    },
+        
+    createForm : function()	{
+        if (!this.body) {
+            this.body = Ext.getBody();
+        }
+
+        this.form = Ext.DomHelper.append(this.body, {
+            tag: 'form',
+            method: 'post',
+            action: this.url,
+            style: 'position: absolute; left: -100px; top: -100px; width: 100px; height: 100px'
+        });
     },
 
-        setBase64 : function(base64) {
-          this.base64 = base64;
-        },
-        
-        createForm : function()	{
-if (!this.body) {
-this.body = Ext.getBody();
-}
+    getFileExtension : function(filename) {
+        var result = null;
+        var parts = filename.split('.');
+        if (parts.length > 1) {
+            result = parts.pop();
+        }
+        return result;
+    },
 
-this.form = Ext.DomHelper.append(this.body, {
-tag: 'form',
-method: 'post',
-action: this.url,
-style: 'position: absolute; left: -100px; top: -100px; width: 100px; height: 100px'
-});
-},
+    isPermittedFileType : function(filename) {
+        var result = true;
+        if (this.permitted_extensions.length > 0) {
+            result = this.permitted_extensions.indexOf(this.getFileExtension(filename)) != -1;
+        }
+        return result;
+    },
 
-getFileExtension : function(filename) {
-var result = null;
-var parts = filename.split('.');
-if (parts.length > 1) {
-result = parts.pop();
-}
-return result;
-},
+    isPermittedFile : function(browse_btn) {
+        var result = false;
+        var filename = browse_btn.getInputFile().dom.value;
 
-isPermittedFileType : function(filename) {
-var result = true;
-if (this.permitted_extensions.length > 0) {
-result = this.permitted_extensions.indexOf(this.getFileExtension(filename)) != -1;
-}
-return result;
-},
+        if (this.isPermittedFileType(filename.toLowerCase())) {
+            result = true;
+        }
+        else {
+            Ext.Msg.alert( _(this.i18n.error_msgbox_title), 
+                    String.format(_(this.i18n.err_file_type_not_permitted),filename,this.permitted_extensions.join(', ')) );
+            result = false;
+        }
 
-isPermittedFile : function(browse_btn) {
-    var result = false;
-    var filename = browse_btn.getInputFile().dom.value;
+        return result;
+    },
 
-    if (this.isPermittedFileType(filename.toLowerCase())) {
-        result = true;
-    }
-    else {
-        Ext.Msg.alert( _(this.i18n.error_msgbox_title), 
-                String.format(_(this.i18n.err_file_type_not_permitted),filename,this.permitted_extensions.join(', ')) );
-        result = false;
-    }
+    fireFileTestEvent : function(browse_btn) {
+        return this.fireEvent('filetest', this, browse_btn.getInputFile().dom.value) !== false;
+    },
 
-    return result;
-},
+    fireFileAddEvent : function(filename) {
+        this.fireEvent('fileadd', this, filename);
+    },
 
-fireFileTestEvent : function(browse_btn) {
-return this.fireEvent('filetest', this, browse_btn.getInputFile().dom.value) !== false;
-},
+    prepareNextUploadTask : function() {
+        var record = this.image_file;
 
-fireFileAddEvent : function(filename) {
-this.fireEvent('fileadd', this, filename);
-},
+        record.get('input_element').dom.disabled = false;
+        record.commit();
 
-prepareNextUploadTask : function() {
-var record = this.image_file;
+        this.fsa.postEvent('file-upload-start', record);
+    },
 
-record.get('input_element').dom.disabled = false;
-record.commit();
+    fireUploadStartEvent : function() {
+        this.fireEvent('uploadstart', this);
+    },
 
-this.fsa.postEvent('file-upload-start', record);
-},
+    uploadFile : function(record) {
+        this.base_params = { method: 'Felamimail.uploadImage', base64: this.base64 };
+        Ext.Ajax.request({
+            url : this.url,
+            params : this.base_params || this.baseParams || this.params,
+            method : 'POST',
+            form : this.form,
+            isUpload : true,
+            success : this.onAjaxSuccess,
+            failure : this.onAjaxFailure,
+            scope : this,
+            record: record
+        });
+        this.image_file = null;
+    },
 
-fireUploadStartEvent : function() {
-this.fireEvent('uploadstart', this);
-},
+    fireFileUploadStartEvent : function(record) {
+        this.fireEvent('fileuploadstart', this, record.get('filename'));
+    },
 
-uploadFile : function(record) {
-                this.base_params = { method: 'Felamimail.uploadImage', base64: this.base64 };
-Ext.Ajax.request({
-url : this.url,
-params : this.base_params || this.baseParams || this.params,
-method : 'POST',
-form : this.form,
-isUpload : true,
-success : this.onAjaxSuccess,
-failure : this.onAjaxFailure,
-scope : this,
-record: record
-});
-this.image_file = null;
-},
+    updateRecordState : function(data) {
+        data.record.commit();
+    },
 
-fireFileUploadStartEvent : function(record) {
-this.fireEvent('fileuploadstart', this, record.get('filename'));
-},
+    fireUploadSuccessEvent : function(data) {
+        this.fireEvent('uploadsuccess', this, data.record.get('filename'), data.response);
+    },
 
-updateRecordState : function(data) {
-data.record.commit();
-},
+    fireUploadErrorEvent : function(data) {
+        this.fireEvent('uploaderror', this, data.record.get('filename'), data.response);
+    },
 
-fireUploadSuccessEvent : function(data) {
-this.fireEvent('uploadsuccess', this, data.record.get('filename'), data.response);
-},
+    fireUploadFailedEvent : function(data) {
+        this.fireEvent('uploadfailed', this, data.record.get('filename'), data.response);
+    },
 
-fireUploadErrorEvent : function(data) {
-this.fireEvent('uploaderror', this, data.record.get('filename'), data.response);
-},
+    fireUploadCompleteEvent : function() {
+        this.fireEvent('uploadcomplete', this);
+    },
 
-fireUploadFailedEvent : function(data) {
-this.fireEvent('uploadfailed', this, data.record.get('filename'));
-},
+    findUploadFrame : function() {
+        this.upload_frame = Ext.getBody().child('iframe.x-hidden:last');
+    },
 
-fireUploadCompleteEvent : function() {
-this.fireEvent('uploadcomplete', this);
-},
+    resetUploadFrame : function() {
+        this.upload_frame = null;
+    },
 
-findUploadFrame : function() {
-this.upload_frame = Ext.getBody().child('iframe.x-hidden:last');
-},
+    removeUploadFrame : function() {
+        if (this.upload_frame) {
+            this.upload_frame.removeAllListeners();
+            this.upload_frame.dom.src = 'about:blank';
+            this.upload_frame.remove();
+        };
+        this.upload_frame = null;
+    },
 
-resetUploadFrame : function() {
-this.upload_frame = null;
-},
+    abortUpload : function() {
+        this.removeUploadFrame();
 
-removeUploadFrame : function() {
-if (this.upload_frame) {
-this.upload_frame.removeAllListeners();
-this.upload_frame.dom.src = 'about:blank';
-this.upload_frame.remove();
-};
-this.upload_frame = null;
-},
+        var record = this.image_file;
 
-abortUpload : function() {
-this.removeUploadFrame();
+        record.commit();
+    },
 
-var record = this.image_file;
+    fireUploadStopEvent : function() {
+        this.fireEvent('uploadstop', this);
+    },
 
-record.commit();
-},
+    repostHide : function() {
+        this.fsa.postEvent('hide');
+    },
 
-fireUploadStopEvent : function() {
-this.fireEvent('uploadstop', this);
-},
+    onAddButtonFileSelected : function(btn) {
+        this.fsa.postEvent('file-selected', btn);
+    },
 
-repostHide : function() {
-this.fsa.postEvent('hide');
-},
+    onAjaxSuccess : function(response, options) {
+        var json_response = {
+            'success' : false,
+            'error' : _(this.i18n.note_upload_failed)
+        }
+        try {
+            var rt = response.responseText;
+            var filter = rt.match(/^<pre>((?:.|\n)*)<\/pre>$/i);
+            if (filter) {
+                rt = filter[1];
+            }
+            json_response = Ext.util.JSON.decode(rt);
+        }
+        catch (e) {}
 
-onAddButtonFileSelected : function(btn) {
-this.fsa.postEvent('file-selected', btn);
-},
+        var data = {
+            record: options.record,
+            response: json_response
+        }
 
-onAjaxSuccess : function(response, options) {
-var json_response = {
-'success' : false,
-'error' : _(this.i18n.note_upload_error)
-}
-try {
-var rt = response.responseText;
-var filter = rt.match(/^<pre>((?:.|\n)*)<\/pre>$/i);
-if (filter) {
-rt = filter[1];
-}
-json_response = Ext.util.JSON.decode(rt);
-}
-catch (e) {}
+        if ('success' in json_response && json_response.success) {
+            this.fsa.postEvent('file-upload-success', data);
+        }
+        else if ('method' in json_response && json_response.method) {
+            this.fsa.postEvent('file-upload-error', data);
+        }
+        else {
+            this.fsa.postEvent('file-upload-failed', data);
+        }
+        this.recreateForm();
+        this.fsa = new Ext.ux.Utils.FSA('ready', this.getControl(), this);
+    },
 
-var data = {
-record: options.record,
-response: json_response
-}
+    onAjaxFailure : function(response, options) {
+        var data = {
+            record : options.record,
+            response : {
+                'success' : false,
+                'error' : _(this.i18n.note_upload_failed)
+            }
+        }
 
-if ('success' in json_response && json_response.success) {
-this.fsa.postEvent('file-upload-success', data);
-}
-else {
-this.fsa.postEvent('file-upload-error', data);
-}
-},
+        this.fsa.postEvent('file-upload-failed', data);
+    },
 
-onAjaxFailure : function(response, options) {
-var data = {
-record : options.record,
-response : {
-'success' : false,
-'error' : _(this.i18n.note_upload_failed)
-}
-}
+    startUpload : function() {
+        this.fsa.postEvent('start-upload');
+    },
 
-this.fsa.postEvent('file-upload-failed', data);
-},
+    stopUpload : function() {
+        this.fsa.postEvent('stop-upload');
+    },
 
-startUpload : function() {
-this.fsa.postEvent('start-upload');
-},
-
-stopUpload : function() {
-this.fsa.postEvent('stop-upload');
-},
-
-hasUnuploadedFiles : function() {
-return this.image_file;
-},
+    hasUnuploadedFiles : function() {
+        return this.image_file;
+    },
 
     onRender: function(ct, position) {
-this.cmp.getToolbar().addButton([new Ext.Toolbar.Separator()]);
+        this.cmp.getToolbar().addButton([new Ext.Toolbar.Separator()]);
 
         var cmp = this.cmp;
         this.btn = this.cmp.getToolbar().addButton(new Ext.ux.UploadImage.TBBrowseButton({
             input_name : 'upload',
             iconCls : 'x-edit-image',
-handler	: this.onAddButtonFileSelected,
+            handler	: this.onAddButtonFileSelected,
             scope : this,
             tooltip : {title: _(this.i18n.title)},
             overflowText : _(this.i18n.title)
         }));
 
-this.onWindowRender();
+        this.onWindowRender();
     },
 
-onUploadSuccess : function(dialog, filename, resp_data, record) {
-    var fileName = filename.replace(/[a-zA-Z]:[\\\/]fakepath[\\\/]/, '');
-    var html = '<img alt="'+fileName+'" src="index.php?method=Felamimail.showTempImage&tempImageId='+resp_data.id+'"/>';
-    if (!dialog.cmp.activated) {
-        dialog.cmp.getEditorBody().focus();
-        dialog.cmp.onFirstFocus();
-    }
-    dialog.cmp.insertAtCursor(html);
-},
+    onUploadSuccess : function(dialog, filename, resp_data, record) {
+        var fileName = filename.replace(/[a-zA-Z]:[\\\/]fakepath[\\\/]/, '');
+        var html = '<img alt="'+fileName+'" src="index.php?method=Felamimail.showTempImage&tempImageId='+resp_data.id+'"/>';
+        if (!dialog.cmp.activated) {
+            dialog.cmp.getEditorBody().focus();
+            dialog.cmp.onFirstFocus();
+        }
+        dialog.cmp.insertAtCursor(html);
+    },
 
-onUploadError : function(dialog, filename, resp_data, record) {
-                var fileName = filename.replace(/[a-zA-Z]:[\\\/]fakepath[\\\/]/, '');
-    Ext.Msg.alert(_(this.i18n.error_msgbox_title),String.format(_(this.i18n.note_upload_error),resp_data.maxsize));
-},
+    onUploadError : function(dialog, filename, resp_data, record) {
+        var fileName = filename.replace(/[a-zA-Z]:[\\\/]fakepath[\\\/]/, '');
+        Ext.Msg.alert(_(this.i18n.error_msgbox_title),String.format(_(this.i18n.note_upload_error),resp_data.maxsize));
+    },
 
-onUploadFailed : function(dialog, filename, resp_data, record) {
-     var fileName = filename.replace(/[a-zA-Z]:[\\\/]fakepath[\\\/]/, '');
-    Ext.Msg.alert(_(this.i18n.error_msgbox_title),String.format(_(this.i18n.note_upload_failed),filename));
-},
+    onUploadFailed : function(dialog, filename, resp_data, record) {
+        var fileName = filename.replace(/[a-zA-Z]:[\\\/]fakepath[\\\/]/, '');
+        Ext.Msg.alert(_(this.i18n.error_msgbox_title),String.format(_(this.i18n.note_upload_failed),resp_data.maxsize));
+    },
 
-addFileToUploadQueue : function(browse_btn) {
-var input_file = browse_btn.detachInputFile();
+    addFileToUploadQueue : function(browse_btn) {
+        var input_file = browse_btn.detachInputFile();
 
-input_file.appendTo(this.form);
-input_file.setStyle('width', '100px');
-input_file.dom.disabled = true;
+        input_file.appendTo(this.form);
+        input_file.setStyle('width', '100px');
+        input_file.dom.disabled = true;
 
-this.image_file = new Ext.ux.UploadImage.FileRecord({
-state: Ext.ux.UploadImage.FileRecord.STATE_QUEUE,
-filename: input_file.dom.value,
-input_element: input_file
-});
+        this.image_file = new Ext.ux.UploadImage.FileRecord({
+            state: Ext.ux.UploadImage.FileRecord.STATE_QUEUE,
+            filename: input_file.dom.value,
+            input_element: input_file
+        });
 
-this.fsa.postEvent('file-added', input_file.dom.value);
-},
-  
-  /**
-* @access private
-*/
-  // -------------------------------------------------------------------------------------------- //
-  onWindowRender : function() {
-    this.fsa.postEvent('window-render');
-  },
-  
+        this.fsa.postEvent('file-added', input_file.dom.value);
+    },
+
+    /**
+    * @access private
+    */
+    // -------------------------------------------------------------------------------------------- //
+    onWindowRender : function() {
+        this.fsa.postEvent('window-render');
+    },
+
 
 
 });
@@ -854,8 +869,7 @@ p.i18n = {
   title: 'Insert Image',
   error_msgbox_title: 'Error',
   err_file_type_not_permitted: 'This file type is not allowed.<br/>Please, select a file of the following extensions: {1}',
-  note_upload_failed: 'Server internal error or unavailable service.',
+  note_upload_failed: 'Either a server internal error occurred or the service is unavailable.<br/>You may also check if the file size does not exceed {0} bytes.',
   note_upload_success: 'Completed.',
   note_upload_error: 'Upload error.<br/>Please check if the file size does not exceed {0} bytes.'
 };
-
