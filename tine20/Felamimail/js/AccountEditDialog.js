@@ -99,7 +99,7 @@ Tine.Felamimail.AccountEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, {
             }
             else {
                 // insert an image in the signature
-                cmp.append(img);   
+                cmp.insertAtCursor(img);   
             }
         }
     },
