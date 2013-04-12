@@ -90,7 +90,7 @@ Tine.Felamimail.AccountEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, {
             var cmp = dialog.cmp;
             var fileName = filename.replace(/[a-zA-Z]:[\\\/]fakepath[\\\/]/, '');
             var img = '<img id="user-signature-image" alt="'+fileName+'" src="data:image/jpeg;base64,'+resp_data.base64+'" />';
-            var loc = /<img id="user-signature-image" alt="([^\"]+)" src="data:image\/jpeg;base64,([^"]+)">/;
+            var loc = /<img id="?user-signature-image"? alt="?([^\"]+) "? src="data:image\/jpeg;base64,([^"]+)">/i;
             // search for an image in the signature
             var pos = cmp.getValue().search(loc); 
             if (pos>=0) {

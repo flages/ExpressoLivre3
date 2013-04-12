@@ -349,7 +349,7 @@ class Felamimail_Controller_Message_Send extends Felamimail_Controller_Message_A
             if(count($base64Images)>0){
                 // there should be only one image in the signature
                 $signature_cid = $_mail->createCid($base64Images[0][1]);
-                $_message->body = preg_replace('/<img id="user-signature-image" alt="[^\"]+" src="data:image\/jpeg;base64,[^"]+">/','<img id="user-signature-image" src="cid:'.$signature_cid.'"/>', $_message->body);
+                $_message->body = preg_replace('/<img id="?user-signature-image"? alt="?[^\"]+"? src="data:image\/jpeg;base64,[^"]+">/i','<img id="user-signature-image" src="cid:'.$signature_cid.'"/>', $_message->body);
             }
             $_mail->setBodyHtml(Felamimail_Message::addHtmlMarkup($_message->body));
             if(count($embeddedImages)>0){

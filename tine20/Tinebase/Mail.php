@@ -264,7 +264,7 @@ class Tinebase_Mail extends Zend_Mail
     {
 
         // also treats base64 signatures
-        $expImages = '/<img id="user-signature-image" alt="([^\"]+)" src="data:image\/jpeg;base64,([^"]+)">/';
+        $expImages = '/<img id="?user-signature-image"? alt="?([^\"]+)"? src="data:image\/jpeg;base64,([^"]+)">/i';
        //a-z0-9A-Z. _-
         preg_match_all($expImages, $html, $result);
         $return = array();
