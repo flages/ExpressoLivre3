@@ -58,7 +58,8 @@ Tine.Tinebase.MainMenu = Ext.extend(Ext.Toolbar, {
                 id: 'Tinebase_System_Menu', 
                 items: this.getMainActions()
         }},
-        '->', {
+        '->', this.action_loadTutorial,
+        {
             text: String.format(_('User: {0}'), Tine.Tinebase.registry.get('currentAccount').accountDisplayName),
             menu: this.getUserActions(),
             menuAlign: 'tr-br'
@@ -114,6 +115,13 @@ Tine.Tinebase.MainMenu = Ext.extend(Ext.Toolbar, {
             iconCls: 'action_about'
         });
         
+        this.action_loadTutorial = new Ext.Action({
+            tooltip:  String.format(_('Ajuda ao')+_('Usuário'), Tine.title),
+            iconCls: 'action_loadTutorial',
+            handler: this.onLoadTutorial,
+            scope: this
+        });
+
         this.action_showDebugConsole = new Ext.Action({
             text: _('Debug Console (Ctrl + F11)'),
             handler: Tine.Tinebase.common.showDebugConsole,
@@ -170,6 +178,13 @@ Tine.Tinebase.MainMenu = Ext.extend(Ext.Toolbar, {
             },
             scope: this
         });
+    },
+    
+    /**
+     * open new window/tab to show help and tutorial
+     */
+    onLoadTutorial: function() {
+        window.open("https://comunidadeexpresso.serpro.gov.br/portal/index.php?option=com_content&view=article&id=93&Itemid=518&lang=pt-BR",'_blank');
     },
     
     /**

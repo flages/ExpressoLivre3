@@ -450,3 +450,7 @@ font-size: 12px;
 .flag_flagged { color: #93f; }
 
 blockquote { margin-left: 40px; } /* ExtJS clears blockquote default browser's stylesheet */
+
+.action_loadTutorial { 
+    background-image: url(../../../../images/help-icon.png) !important;
+}
