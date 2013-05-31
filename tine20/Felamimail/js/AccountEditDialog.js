@@ -79,12 +79,7 @@ Tine.Felamimail.AccountEditDialog = Ext.extend(Tine.widgets.dialog.EditDialog, {
     onUploadSuccess : function(dialog, filename, resp_data, record) {
         if (resp_data.size > 16384) {
             // exceeded maximum image size for the signature
-            Ext.Msg.show({
-                title:   _('Error'),
-                msg:     _('Signature image size cannot exceed 16384 bytes.'),
-                icon:    Ext.MessageBox.ERROR,
-                buttons: Ext.Msg.OK
-            }); 
+            dialog.showMessage( _('Error'), _('Signature image size cannot exceed 16384 bytes.') );
         }
         else {
             var cmp = dialog.cmp;
